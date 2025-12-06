@@ -4,5 +4,15 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: true,
+  services:{
+    apiService: 'api',
+    catalogoService: 'http://localhost:5005/api/Catalogo/',
+    especialidadService: 'http://localhost:5005/api/Especialidad/',
+    medicoService: 'http://localhost:5005/api/Medico/',
+    pacienteService: 'http://localhost:5005/api/Paciente/',
+    perfilService: 'http://localhost:5005/api/Perfil/',
+    rolService: 'http://localhost:5005/api/Rol/',
+    usuarioService: 'http://localhost:5005/api/Usuario/',
+  }
 };
