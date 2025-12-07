@@ -11,6 +11,7 @@ import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tree } from 'd3';
+import { ToastrService } from "ngx-toastr";
 
 import { Paciente, Filtro, FilterString,  } from '../../../pages/interfaces/paciente.interface';
 import { environment } from '../../../../environments/environment';
@@ -36,11 +37,14 @@ export class FormPacienteComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private apiService: PacienteServices) {
+        private apiService: PacienteServices,
+        private toastr: ToastrService) {
+            this.titleForm = "Agregar";
     }
 
     ngOnInit() {
        console.log("Formulario");
+        this.validateForms();
     }
 
      viewCards(){
@@ -48,21 +52,25 @@ export class FormPacienteComponent implements OnInit {
         this.flagViewCards.emit("cancel");
     }
 
+    /*public showNotification( type: string, message: string ): void {
+		this.notifier.notify( type, message );
+	}*/
+
     validateForms(){
         switch (this.action) {
             case 'add':
                 this.active = 1;
                 this.titleForm = "Agregar";
                 this.dataForm = this.fb.group({
-                    nombres: ['Vanessa', [Validators.required]],
-                    apellidos: ['Aguas', [Validators.required]],
-                    identificacion: ['0999999999', [Validators.required]],
-                    usuario: ['usumedicare', [Validators.required]],
-                    email: ['tu@correo.com', [Validators.required]],
-                    edad: ['18'],
-                    telefono: ['2334238'],
-                    celular: ['0923342389'],
-                    direccion: ['Centro - Sur']
+                    nombres: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+( [A-Za-z]+)?$/)]],
+                    apellidos: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+( [A-Za-z]+)?$/)]],
+                    identificacion: ['', [Validators.required]],
+                    usuario: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9]+$/)]],
+                    email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/)]],
+                    edad: [''],
+                    telefono: [''],
+                    celular: [''],
+                    direccion: ['']
                 });
                 break;
             case 'edit':
@@ -72,7 +80,7 @@ export class FormPacienteComponent implements OnInit {
                     nombres: [this.data.nombres, [Validators.required]],
                     apellidos: [this.data.apellidos, [Validators.required]],
                     identificacion: [this.data.identificacion, [Validators.required]],
-                    usuario: [this.data.usuario, [Validators.required]],
+                    usuario: [{ value: this.data.usuario, disabled: true }, [Validators.required]],
                     email: [this.data.email, [Validators.required]],
                     edad: [this.data.edad],
                     telefono: [this.data.telefono],
@@ -86,7 +94,7 @@ export class FormPacienteComponent implements OnInit {
     }
 
     async createRegistro(){
-        var intermediario: Paciente = {
+        var insertarData: Paciente = {
             pacienteId : 0,
             nombres : this.dataForm.controls['nombres'].value,
             apellidos : this.dataForm.controls['apellidos'].value,
@@ -97,25 +105,27 @@ export class FormPacienteComponent implements OnInit {
             telefono : this.dataForm.controls['telefono'].value,
             celular : this.dataForm.controls['celular'].value,
             direccion : this.dataForm.controls['direccion'].value,
+            usuarioCreacion : "admin",
             estado: true
         }
 
-        var resp = await this.apiService.create(intermediario).toPromise()
+        var resp = await this.apiService.create(insertarData).toPromise()
         .then(res => {
-            /*if(res && res["id"] != "0"){
-                this.showNotification("success", res["message"]);
+            if(res && res["id"] != "0"){
+                this.showNotification(2, "top", "right", res["message"]);//"success", );
                 this.flagViewCards.emit("reload");
-            }*/
+            }
         })
         .catch((err) => {
-           // this.showNotification("error", "Error al crear un Intermediario");
+            this.showNotification(4, "top","right", "Error al registrar la información");
         });
         
     }
 
     async editRegistro(){
-        var inter: Paciente = {
+        var editData: Paciente = {
             pacienteId: this.data.pacienteId,
+            perfilId: this.data.perfilId,
             nombres : this.dataForm.controls['nombres'].value,
             apellidos : this.dataForm.controls['apellidos'].value,
             identificacion : this.dataForm.controls['identificacion'].value,
@@ -125,22 +135,106 @@ export class FormPacienteComponent implements OnInit {
             telefono : this.dataForm.controls['telefono'].value,
             celular : this.dataForm.controls['celular'].value,
             direccion : this.dataForm.controls['direccion'].value,
+            usuarioCreacion : "admin",
+            usuarioModificacion : "admin",
             estado: true
         }
 
-        var resp = await this.apiService.edit(inter).toPromise()
+        var resp = await this.apiService.edit(editData).toPromise()
         .then(res => {
-            /*if(res && res["id"] != "0"){
-                this.showNotification("success", res["message"]);
+            if(res && res["id"] != "0"){
+                this.showNotification(2, "top", "right", res["message"]);
                 this.flagViewCards.emit("reload");
-            }*/
+            }
         })
         .catch((err) => {
-            //this.showNotification("error", "Error al editar un Intermediario");
+            this.showNotification(4, "top", "right", "Error al editar el registro");
         });
     }
 
     async resetearClave(){
         
+    }
+
+    showNotification(color: number, from, align, mensaje: string) {
+
+    switch (color) {
+      case 1:
+        this.toastr.info(
+        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
+          "",
+          {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: "alert alert-info alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      case 2:
+        this.toastr.success(
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
+          "",
+          {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: "alert alert-success alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      case 3:
+        this.toastr.warning(
+        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
+          "",
+          {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: "alert alert-warning alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      case 4:
+        this.toastr.error(
+        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
+          "",
+          {
+            timeOut: 4000,
+            enableHtml: true,
+            closeButton: true,
+            toastClass: "alert alert-danger alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      case 5:
+        this.toastr.show(
+        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
+          "",
+          {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: "alert alert-primary alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      default:
+        break;
+    }
+  }
+
+  soloNumeros(event: KeyboardEvent) {
+        const pattern = /^[0-9]$/;
+        const inputChar = event.key;
+
+        if (!pattern.test(inputChar)) {
+            event.preventDefault();
+        }
     }
 }

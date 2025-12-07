@@ -17,7 +17,7 @@ import { Paciente, IResponseDataPaciente, Filtro } from "../interfaces/paciente.
         const headers = new HttpHeaders().set('Ahthorization', `Bearer ` + this.token);
         let url_ = `${this.prefix}crear` ;
 
-        return this.http.post<IResponseDataPaciente<Response>>(url_, input, {headers: headers});
+        return this.http.post(url_, input, {headers: headers});
     }
 
     public getAll(filtros: Filtro) {
@@ -30,7 +30,7 @@ import { Paciente, IResponseDataPaciente, Filtro } from "../interfaces/paciente.
 
     public edit(input: Paciente) {
         let url_ = `${this.prefix}update` ;
-        return this.http.put<IResponseDataPaciente<Response>>(url_, input);
+        return this.http.put(url_, input);
     }
 
     public getById(id: number) {

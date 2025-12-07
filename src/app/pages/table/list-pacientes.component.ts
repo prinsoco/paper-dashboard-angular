@@ -129,8 +129,8 @@ export class PacientesComponent implements OnInit{
     //#endregion: seccion grid view
 
     //#region: seccion editar perfil
-    public  showForm(campana: Paciente | null, action: string){
-        this.data = campana;
+    public  showForm(input: Paciente | null, action: string){
+        this.data = input;
         this.textSpinner = "Procesando...";
         switch (action) {
           case 'add':
