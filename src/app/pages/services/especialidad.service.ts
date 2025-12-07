@@ -15,21 +15,22 @@ import { Especialidad, IResponseDataEspecialidad, Filtro } from "../interfaces/e
 
     public create(input: Especialidad){
         const headers = new HttpHeaders().set('Ahthorization', `Bearer ` + this.token);
-        let url_ = `${this.prefix}/crear` ;
+        let url_ = `${this.prefix}crear` ;
 
-        return this.http.post<IResponseDataEspecialidad<Response>>(url_, input, {headers: headers});
+        return this.http.post(url_, input, {headers: headers});
     }
 
-    public getEspecialidades(filtros: Filtro) {
-        const headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token); 
-        let url_ = `${this.prefix}/getAll` ;
+    public getAll(filtros: Filtro) {
+        let headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token)
+        .set('input', filtros.input);
+        let url_ = `${this.prefix}getAll` ;
 
-        return this.http.post<IResponseDataEspecialidad<Especialidad[]>>(url_, filtros, {headers: headers});
+        return this.http.get<IResponseDataEspecialidad<Especialidad[]>>(url_, {headers: headers});
     }
 
-    public editEspecialidad(input: Especialidad) {
-        let url_ = `${this.prefix}/update` ;
-        return this.http.put<IResponseDataEspecialidad<Response>>(url_, input);
+    public edit(input: Especialidad) {
+        let url_ = `${this.prefix}update` ;
+        return this.http.put(url_, input);
     }
 
     public getById(id: number) {

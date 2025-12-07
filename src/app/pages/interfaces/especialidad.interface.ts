@@ -1,10 +1,10 @@
 export class Especialidad {
-    EspecialidadId?: number;
-    Descripcion: string;
-    Observacion?: string;
-    Estado?: boolean = false;
-    Usuario?: string;
-    UsuarioModificacion?: string;
+    especialidadId?: number;
+    descripcion: string;
+    observacion?: string;
+    estado?: boolean = false;
+    usuarioCreacion?: string;
+    usuarioModificacion?: string;
 }
 
 export interface IResponseDataEspecialidad<T> {
@@ -15,9 +15,7 @@ export interface IResponseDataEspecialidad<T> {
 }
 
 export class Filtro{
-    tipo?: string;
-    codigo?: string;
-    estado?: boolean;
+    input?: string;
 }
 
 export class Response{
