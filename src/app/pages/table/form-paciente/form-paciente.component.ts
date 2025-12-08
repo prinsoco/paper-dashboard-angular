@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NotifierService } from 'angular-notifier';
-import { NgxSpinnerService } from 'ngx-spinner';
+//import { NotifierService } from 'angular-notifier';
+//import { NgxSpinnerService } from 'ngx-spinner';
 import { formatDate } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation, ViewChild } from '@angular/core';
@@ -10,7 +10,7 @@ import { animate, state, style, transition, trigger, query, group } from '@angul
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tree } from 'd3';
+//import { tree } from 'd3';
 import { ToastrService } from "ngx-toastr";
 
 import { Paciente, Filtro, FilterString,  } from '../../../pages/interfaces/paciente.interface';
