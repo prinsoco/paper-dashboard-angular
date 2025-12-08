@@ -13,9 +13,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 //import { tree } from 'd3';
 import { ToastrService } from "ngx-toastr";
 
-import { Paciente, Filtro, FilterString,  } from '../../../pages/interfaces/paciente.interface';
+import { Paciente, Filtro, FilterString,  } from '../../interfaces/paciente.interface';
 import { environment } from '../../../../environments/environment';
-import { PacienteServices } from '../../../pages/services/paciente.service';
+import { PacienteServices } from '../../services/paciente.service';
 
 @Component({
     selector: 'app-form-paciente',

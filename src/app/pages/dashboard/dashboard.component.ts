@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js';
 
+import { Filtro, SeccionOne } from '../interfaces/dashboard.interface';
+import { DashBoardServices } from '../services/dashboard.service';
+
 
 @Component({
     selector: 'dashboard-cmp',
@@ -15,10 +18,20 @@ export class DashboardComponent implements OnInit{
   public chartColor;
   public chartEmail;
   public chartHours;
+  timeActualizado: string;
+  totPaciente: number;
+  toCitasAsistidas: number;
+  totEspecialidades: number;
+  totMedico: number;
+  data: SeccionOne;
+
+  constructor(private apiService: DashBoardServices)
+  {}
 
     ngOnInit(){
+      this.getSeccionOne();
       this.chartColor = "#FFFFFF";
-
+      /*
       this.canvas = document.getElementById("chartHours");
       this.ctx = this.canvas.getContext("2d");
 
@@ -95,8 +108,9 @@ export class DashboardComponent implements OnInit{
           },
         }
       });
+      */
 
-
+      /*
       this.canvas = document.getElementById("chartEmail");
       this.ctx = this.canvas.getContext("2d");
       this.chartEmail = new Chart(this.ctx, {
@@ -162,7 +176,8 @@ export class DashboardComponent implements OnInit{
           },
         }
       });
-
+      */
+     /*
       var speedCanvas = document.getElementById("speedChart");
 
       var dataFirst = {
@@ -204,6 +219,25 @@ export class DashboardComponent implements OnInit{
         hover: false,
         data: speedData,
         options: chartOptions
-      });
+      });*/
+    }
+
+    async getSeccionOne(){
+        try {
+            var resp = await this.apiService.getSeccionOne().toPromise();
+            if (resp != null)
+            {
+              this.data = resp.data;
+              console.log("SeccionOne");
+              console.log(resp);
+
+              this.totEspecialidades = this.data.especialidades;
+              this.totMedico = this.data.medicos;
+              this.toCitasAsistidas = this.data.citasAsistidas;
+              this.totPaciente = this.data.pacientes;
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 }

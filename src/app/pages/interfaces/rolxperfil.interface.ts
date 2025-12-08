@@ -1,12 +1,13 @@
 export class Perfil {
-    PerfilId?: number;
-    Descripcion: string;
-    Estado: boolean;
-    UsuarioCreacion: string;
-    UsuarioModificacion: string;
+    perfilId?: number;
+    descripcion?: string;
+    estado?: boolean;
+    codigo?: string;
+    usuarioCreacion?: string;
+    usuarioModificacion?: string;
 }
 
-export interface IResponseDataPerfil<T> {
+export interface IResponseDataGeneral<T> {
     code:number;
     info:string;
     message:string;
@@ -14,18 +15,12 @@ export interface IResponseDataPerfil<T> {
 }
 
 export class Rol {
-    RolId?: number;
-    Descripcion: string;
-    Estado?: boolean
-    UsuarioCreacion: string;
-    UsuarioModificacion: string;
-}
-
-export interface IResponseDataRol<T> {
-    code:number;
-    info:string;
-    message:string;
-    data: T;
+    rolId?: number;
+    descripcion?: string;
+    codigo?: string;
+    estado?: boolean
+    usuarioCreacion?: string;
+    usuarioModificacion?: string;
 }
 
 export class Menu {
@@ -38,17 +33,8 @@ export class Menu {
     Class: string;
 }
 
-export interface IResponseDataMenu<T> {
-    code:number;
-    info:string;
-    message:string;
-    data: T;
-}
-
 export class Filtro{
-    tipo?: string;
-    codigo?: string;
-    estado?: boolean;
+    input?: string;
 }
 
 export class Response{

@@ -10,14 +10,16 @@ export interface RouteInfo {
 
 export const ROUTES: RouteInfo[] = [
     { path: '/dashboard',     title: 'Dashboard',         icon:'nc-bank',       class: '' },
-    { path: '/icons',         title: 'Icons',             icon:'nc-diamond',    class: '' },
-    { path: '/maps',          title: 'Maps',              icon:'nc-pin-3',      class: '' },
-    { path: '/notifications', title: 'Notifications',     icon:'nc-bell-55',    class: '' },
-    { path: '/user',          title: 'User Profile',      icon:'nc-single-02',  class: '' },
+    //{ path: '/icons',         title: 'Icons',             icon:'nc-diamond',    class: '' },
+    //{ path: '/maps',          title: 'Maps',              icon:'nc-pin-3',      class: '' },
+    //{ path: '/notifications', title: 'Notifications',     icon:'nc-bell-55',    class: '' },
+    //{ path: '/user',          title: 'User Profile',      icon:'nc-single-02',  class: '' },
     { path: '/pacientes',         title: 'Pacientes',        icon:'nc-badge',    class: '' },
     { path: '/especialidades',       title: 'Especialidades',    icon:'nc-settings-gear-65',  class: '' },
-    { path: '/typography',    title: 'Typography',        icon:'nc-caps-small', class: '' },
-    { path: '/upgrade',       title: 'Upgrade to PRO',    icon:'nc-spaceship',  class: 'active-pro' }
+    { path: '/perfiles',       title: 'Perfiles',    icon:'nc-vector',  class: '' },
+    { path: '/roles',       title: 'Roles',    icon:'nc-vector',  class: '' },
+    //{ path: '/typography',    title: 'Typography',        icon:'nc-caps-small', class: '' },
+    //{ path: '/upgrade',       title: 'Upgrade to PRO',    icon:'nc-spaceship',  class: 'active-pro' }
 ];
 
 @Component({

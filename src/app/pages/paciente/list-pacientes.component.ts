@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation  } from '@angular/core';
-import { PacienteServices } from '../services/paciente.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { animate, state, style, transition, trigger, query, group } from '@angular/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,6 +7,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Filtro, Paciente } from '../interfaces/paciente.interface';
+import { PacienteServices } from '../services/paciente.service';
 
 declare interface TableData {
     headerRow: string[];
