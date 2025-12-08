@@ -17,6 +17,8 @@ import { UpgradeComponent }         from '../../pages/upgrade/upgrade.component'
 import { EspecialidadesComponent }           from '../../pages/especialidad/list-especialidades.component';
 import { PerfilesComponent } from '../../pages/perfil/list-perfil.component';
 import { RolesComponent } from '../../pages/rol/list-rol.component';
+import { UsuariosComponent } from '../../pages/usuarios/list-usuarios.component';
+import { FormUsuarioComponent } from '../../pages/usuarios/form-usuarios/form-usuarios.component';
 
 @NgModule({
   imports: [
@@ -38,7 +40,9 @@ import { RolesComponent } from '../../pages/rol/list-rol.component';
     MapsComponent,
     NotificationsComponent,
     PerfilesComponent,
-    RolesComponent
+    RolesComponent,
+    UsuariosComponent,
+    FormUsuarioComponent
   ]
 })
 

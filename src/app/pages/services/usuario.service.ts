@@ -8,33 +8,34 @@ import { Usuario, IResponseDataUsuario, Filtro } from "../interfaces/usuario.int
     providedIn: 'root'
   })
 
-  export class PacienteServices {
+  export class UsuarioServices {
     token: any;
     public prefix: string = `${environment.services.usuarioService}`;
     constructor(private http: HttpClient, private route: ActivatedRoute) { this.token = localStorage.getItem("jwt"); }
 
     public create(input: Usuario){
         const headers = new HttpHeaders().set('Ahthorization', `Bearer ` + this.token);
-        let url_ = `${this.prefix}/crear` ;
+        let url_ = `${this.prefix}crear` ;
 
-        return this.http.post<IResponseDataUsuario<Response>>(url_, input, {headers: headers});
+        return this.http.post(url_, input, {headers: headers});
     }
 
-    public getUsuarios(filtros: Filtro) {
-        const headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token); 
-        let url_ = `${this.prefix}/getAll` ;
+    public getAll(filtros: Filtro) {
+        let headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token)
+        .set('input', filtros.input);
+        let url_ = `${this.prefix}getAll` ;
 
-        return this.http.post<IResponseDataUsuario<Usuario[]>>(url_, filtros, {headers: headers});
+        return this.http.get<IResponseDataUsuario<Usuario[]>>(url_, {headers: headers});
     }
 
-    public editUsuario(input: Usuario) {
-        let url_ = `${this.prefix}/update` ;
-        return this.http.put<IResponseDataUsuario<Response>>(url_, input);
+    public edit(input: Usuario) {
+        let url_ = `${this.prefix}update` ;
+        return this.http.put(url_, input);
     }
 
     public getById(id: number) {
 
         const headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token); 
-        return this.http.get<IResponseDataUsuario<Usuario[]>>(`${this.prefix}/getById/${id}`, {headers: headers});
+        return this.http.get<IResponseDataUsuario<Usuario[]>>(`${this.prefix}getById/${id}`, {headers: headers});
     } 
   }

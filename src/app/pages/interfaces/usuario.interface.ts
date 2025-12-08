@@ -1,18 +1,20 @@
 //Usuario
 export class Usuario {
-    UsuarioId: number;
-    Usuario: string;
-    PerfilId: number;
-    Perfil: string;
-    Nombres: string;
-    Apellidos: string;
-    Identificacion: string;
-    Email: string;
-    Edad: number;
-    Telefono: string;
-    Celular: string;
-    Direccion: string;
-    Estado: boolean;
+    usuarioId?: number;
+    usuarioLogin?: string;
+    descPerfil?: string;
+    perfilId?: number;
+    nombres?: string;
+    apellidos?: string;
+    identificacion?: string;
+    email?: string;
+    edad?: number;
+    telefono?: string;
+    celular?: string;
+    direccion?: string;
+    estado?: boolean;
+    usuarioCreacion?: string;
+    usuarioModificacion?: string;
 }
 
 export interface IResponseDataUsuario<T> {
@@ -23,9 +25,7 @@ export interface IResponseDataUsuario<T> {
 }
 
 export class Filtro{
-    tipo?: string;
-    codigo?: string;
-    estado?: boolean;
+    input?: string;
 }
 
 export class Response{

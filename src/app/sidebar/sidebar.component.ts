@@ -18,6 +18,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/especialidades',       title: 'Especialidades',    icon:'nc-settings-gear-65',  class: '' },
     { path: '/perfiles',       title: 'Perfiles',    icon:'nc-vector',  class: '' },
     { path: '/roles',       title: 'Roles',    icon:'nc-vector',  class: '' },
+    { path: '/usuarios',       title: 'Usuarios',    icon:'nc-circle-10',  class: '' },
     //{ path: '/typography',    title: 'Typography',        icon:'nc-caps-small', class: '' },
     //{ path: '/upgrade',       title: 'Upgrade to PRO',    icon:'nc-spaceship',  class: 'active-pro' }
 ];
