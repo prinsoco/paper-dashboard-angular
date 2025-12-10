@@ -12,6 +12,9 @@ import { EspecialidadesComponent } from '../../pages/especialidad/list-especiali
 import { PerfilesComponent } from '../../pages/perfil/list-perfil.component';
 import { RolesComponent } from '../../pages/rol/list-rol.component';
 import { UsuariosComponent } from '../../pages/usuarios/list-usuarios.component';
+import { MedicosComponent } from '../../pages/medicos/list-medico.component';
+import { ParametrosComponent } from '../../pages/configuracion/list-parametros.component';
+import { NotificacionesComponent } from '../../pages/notificaciones/list-notificaciones.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -26,4 +29,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'perfiles',          component: PerfilesComponent },
     { path: 'roles',          component: RolesComponent },
     { path: 'usuarios',          component: UsuariosComponent },
+    { path: 'medicos',          component: MedicosComponent },
+    { path: 'parametros',          component: ParametrosComponent },
+    { path: 'notificaciones',          component: NotificacionesComponent }
 ];

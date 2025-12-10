@@ -1,21 +1,21 @@
 export class Medico {
-    MedicoId?: number;
-    EspecialidadId?: number;
-    DescEspecialidad?: string;
-    PerfilId?: number;
-    DescPerfil?: string;
-    Nombres: string;
-    Apellidos: string;
-    Identificacion: string;
-    Email: string;
-    Edad: number;
-    Usuario: string;
-    Telefono: string;
-    Celular: string;
-    Direccion: string;
-    Estado: boolean;
-    UsuarioCreacion?: string;
-    UsuarioModificacion?: string;
+    medicoId?: number;
+    especialidadId?: number;
+    descEspecialidad?: string;
+    perfilId?: number;
+    descPerfil?: string;
+    nombres: string;
+    apellidos: string;
+    identificacion: string;
+    email: string;
+    edad: number;
+    usuario: string;
+    telefono: string;
+    celular: string;
+    direccion: string;
+    estado: boolean;
+    usuarioCreacion?: string;
+    usuarioModificacion?: string;
 }
 
 export interface IResponseDataMedico<T> {
@@ -26,9 +26,7 @@ export interface IResponseDataMedico<T> {
 }
 
 export class Filtro{
-    tipo?: string;
-    codigo?: string;
-    estado?: boolean;
+    input?: string;
 }
 
 export class Response{

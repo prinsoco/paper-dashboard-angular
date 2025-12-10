@@ -15,7 +15,6 @@ import { AppRoutes } from './app.routing';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginModule } from "./pages/login/login.module";
 
-
 @NgModule({
   declarations: [
     AppComponent,

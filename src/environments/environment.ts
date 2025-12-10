@@ -15,5 +15,6 @@ export const environment = {
     rolService: 'http://localhost:5005/api/Rol/',
     usuarioService: 'http://localhost:5005/api/Usuario/',
     dashboardService: 'http://localhost:5005/api/DashBoard/',
+    parametroService: 'http://localhost:5005/api/Parametros/'
   }
 };

@@ -15,10 +15,13 @@ export const ROUTES: RouteInfo[] = [
     //{ path: '/notifications', title: 'Notifications',     icon:'nc-bell-55',    class: '' },
     //{ path: '/user',          title: 'User Profile',      icon:'nc-single-02',  class: '' },
     { path: '/pacientes',         title: 'Pacientes',        icon:'nc-badge',    class: '' },
-    { path: '/especialidades',       title: 'Especialidades',    icon:'nc-settings-gear-65',  class: '' },
-    { path: '/perfiles',       title: 'Perfiles',    icon:'nc-vector',  class: '' },
-    { path: '/roles',       title: 'Roles',    icon:'nc-vector',  class: '' },
+    { path: '/especialidades',       title: 'Especialidades',    icon:'nc-sound-wave',  class: '' },
+    { path: '/perfiles',       title: 'Perfiles',    icon:'nc-settings-gear-65',  class: '' },
+    { path: '/roles',       title: 'Roles',    icon:'nc-settings-gear-65',  class: '' },
     { path: '/usuarios',       title: 'Usuarios',    icon:'nc-circle-10',  class: '' },
+    { path: '/medicos',       title: 'Médicos',    icon:'nc-ambulance',  class: '' },
+    { path: '/parametros',       title: 'Parámetros',    icon:'nc-tile-56',  class: '' },
+    { path: '/notificaciones',       title: 'Plantillas',    icon:'nc-paper',  class: '' }
     //{ path: '/typography',    title: 'Typography',        icon:'nc-caps-small', class: '' },
     //{ path: '/upgrade',       title: 'Upgrade to PRO',    icon:'nc-spaceship',  class: 'active-pro' }
 ];

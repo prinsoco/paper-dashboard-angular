@@ -2,18 +2,18 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { environment } from '../../../environments/environment';
-import { Medico, IResponseDataMedico, Filtro } from "../interfaces/medico.interface";
+import { Parametros, IResponseDataParametros, Filtro } from "../interfaces/parametros.interface";
 
 @Injectable({
     providedIn: 'root'
   })
 
-  export class MedicoServices {
+  export class ParametroServices {
     token: any;
-    public prefix: string = `${environment.services.medicoService}`;
+    public prefix: string = `${environment.services.parametroService}`;
     constructor(private http: HttpClient, private route: ActivatedRoute) { this.token = localStorage.getItem("jwt"); }
 
-    public create(input: Medico){
+    public create(input: Parametros){
         const headers = new HttpHeaders().set('Ahthorization', `Bearer ` + this.token);
         let url_ = `${this.prefix}crear` ;
 
@@ -25,10 +25,10 @@ import { Medico, IResponseDataMedico, Filtro } from "../interfaces/medico.interf
         .set('input', filtros.input);
         let url_ = `${this.prefix}getAll` ;
 
-        return this.http.get<IResponseDataMedico<Medico[]>>(url_, {headers: headers});
+        return this.http.get<IResponseDataParametros<Parametros[]>>(url_, {headers: headers});
     }
 
-    public edit(input: Medico) {
+    public edit(input: Parametros) {
         let url_ = `${this.prefix}update` ;
         return this.http.put(url_, input);
     }
@@ -36,6 +36,6 @@ import { Medico, IResponseDataMedico, Filtro } from "../interfaces/medico.interf
     public getById(id: number) {
 
         const headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token); 
-        return this.http.get<IResponseDataMedico<Medico[]>>(`${this.prefix}getById/${id}`, {headers: headers});
+        return this.http.get<IResponseDataParametros<Parametros[]>>(`${this.prefix}/getById/${id}`, {headers: headers});
     } 
   }

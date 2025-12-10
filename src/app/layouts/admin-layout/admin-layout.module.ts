@@ -19,6 +19,11 @@ import { PerfilesComponent } from '../../pages/perfil/list-perfil.component';
 import { RolesComponent } from '../../pages/rol/list-rol.component';
 import { UsuariosComponent } from '../../pages/usuarios/list-usuarios.component';
 import { FormUsuarioComponent } from '../../pages/usuarios/form-usuarios/form-usuarios.component';
+import { MedicosComponent } from '../../pages/medicos/list-medico.component';
+import { FormMedicoComponent } from '../../pages/medicos/form-medico/form-medico.component';
+import { ParametrosComponent } from '../../pages/configuracion/list-parametros.component';
+import { NotificacionesComponent } from '../../pages/notificaciones/list-notificaciones.component';
+import { FormNotificacionComponent } from '../../pages/notificaciones/form-notificacion/form-notificacion.component';
 
 @NgModule({
   imports: [
@@ -42,7 +47,12 @@ import { FormUsuarioComponent } from '../../pages/usuarios/form-usuarios/form-us
     PerfilesComponent,
     RolesComponent,
     UsuariosComponent,
-    FormUsuarioComponent
+    FormUsuarioComponent,
+    MedicosComponent,
+    FormMedicoComponent,
+    ParametrosComponent,
+    NotificacionesComponent,
+    FormNotificacionComponent
   ]
 })
 
