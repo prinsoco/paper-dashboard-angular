@@ -1,0 +1,10 @@
+[
+  {
+    "doctorId": 1,
+    "dias": ["LUNES", "MARTES", "MIERCOLES"],
+    "rangos": [
+      { "desde": "09:00", "hasta": "13:00" },
+      { "desde": "15:00", "hasta": "19:00" }
+    ]
+  }
+]

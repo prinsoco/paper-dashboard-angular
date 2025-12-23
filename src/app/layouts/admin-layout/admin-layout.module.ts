@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule  } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminLayoutRoutes } from './admin-layout.routing';
+import { CKEditorModule } from 'ng2-ckeditor';
 
 import { DashboardComponent }       from '../../pages/dashboard/dashboard.component';
 import { UserComponent }            from '../../pages/user/user.component';
@@ -24,6 +25,8 @@ import { FormMedicoComponent } from '../../pages/medicos/form-medico/form-medico
 import { ParametrosComponent } from '../../pages/configuracion/list-parametros.component';
 import { NotificacionesComponent } from '../../pages/notificaciones/list-notificaciones.component';
 import { FormNotificacionComponent } from '../../pages/notificaciones/form-notificacion/form-notificacion.component';
+import { CalendarioComponent } from '../../pages/citas/citas-medicos.component';
+import { FullCalendarModule } from "@fullcalendar/angular";
 
 @NgModule({
   imports: [
@@ -31,8 +34,10 @@ import { FormNotificacionComponent } from '../../pages/notificaciones/form-notif
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
-  ],
+    NgbModule,
+    CKEditorModule,
+    FullCalendarModule
+],
   declarations: [
     DashboardComponent,
     UserComponent,
@@ -52,7 +57,8 @@ import { FormNotificacionComponent } from '../../pages/notificaciones/form-notif
     FormMedicoComponent,
     ParametrosComponent,
     NotificacionesComponent,
-    FormNotificacionComponent
+    FormNotificacionComponent,
+    CalendarioComponent
   ]
 })
 

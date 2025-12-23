@@ -34,6 +34,7 @@ export class FormUsuarioComponent implements OnInit {
     titleForm : string;
     active = 1;
     dataForm: FormGroup;
+    ValidacionUsuario: string;
 
     constructor(
         private fb: FormBuilder,
@@ -93,7 +94,19 @@ export class FormUsuarioComponent implements OnInit {
         }
     }
 
-    async createRegistro(){
+    createRegistro(){
+        this.apiService.getByUser(this.dataForm.controls['usuario'].value).subscribe(resp => {
+          if (resp != null){
+            this.ValidacionUsuario = "";
+            this.InsertarUsuario();
+          }
+          else{
+            this.ValidacionUsuario = "Usuario ya existe asignado a otro registro";
+          }
+        }); 
+    }
+
+    async InsertarUsuario(){
         var insertarData: Usuario = {
             usuarioId : 0,
             nombres : this.dataForm.controls['nombres'].value,

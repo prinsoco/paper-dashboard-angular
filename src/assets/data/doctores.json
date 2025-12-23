@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "nombre": "Dr. Juan Pérez",
+    "especialidad": "Cardiología",
+    "foto": "assets/img/doctores/doc1.png"
+  },
+  {
+    "id": 2,
+    "nombre": "Dra. María Gómez",
+    "especialidad": "Pediatría",
+    "foto": "assets/img/doctores/doc2.png",
+    "horarioTexto": "08:00 - 14:00",
+    "diasAtencion": [1,3,5]
+  }
+]

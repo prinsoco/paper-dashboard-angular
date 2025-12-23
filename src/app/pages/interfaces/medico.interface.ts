@@ -39,3 +39,13 @@ export class Response{
 export class FilterString{
     codigo?: string;
 }
+
+export interface Doctor {
+  id: number;
+  nombre: string;
+  especialidad: string;
+  foto: string;
+  horarioTexto: string;
+  diasAtencion: number[];
+}
+

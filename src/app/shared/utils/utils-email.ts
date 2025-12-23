@@ -1,18 +1,23 @@
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 
-// src/app/shared/directives/email-valido.directive.ts
-import { Directive, HostListener } from '@angular/core';
+@Injectable({
+    providedIn: 'root'
+  })
 
-@Directive({
-  selector: '[emailValido]',
-  standalone: true
-})
 export class EmailValidoDirective {
   // Caracteres permitidos en la parte local (antes de @)
   private readonly localAllowedChar = /^[A-Za-z0-9._+-]$/;
   // Caracteres permitidos en el dominio (después de @)
   private readonly domainAllowedChar = /^[A-Za-z0-9.-]$/;
 
-  @HostListener('keydown', ['$event'])
+  isValidEmail(email: string): boolean {
+    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    return regex.test(email.trim());
+  }
+  
+  //valida evento keydown
   onKeyDown(event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
     const value = input.value;
@@ -23,7 +28,7 @@ export class EmailValidoDirective {
     // Teclas de control/navegación permitidas
     const controlKeys = [
       'Backspace','Delete','ArrowLeft','ArrowRight','ArrowUp','ArrowDown',
-      'Tab','Home','End','Escape','Enter'
+      'Home','End','Escape','Enter'
     ];
     if (controlKeys.includes(event.key)) return;
 
@@ -92,7 +97,7 @@ export class EmailValidoDirective {
     }
   }
 
-  @HostListener('paste', ['$event'])
+  
   onPaste(event: ClipboardEvent) {
     const input = event.target as HTMLInputElement;
     const pasted = event.clipboardData?.getData('text') ?? '';
@@ -122,7 +127,7 @@ export class EmailValidoDirective {
   }
 
   // Validación al salir del campo (opcional, para limpiar pequeños errores)
-  @HostListener('blur', ['$event'])
+  
   onBlur(event: FocusEvent) {
     const input = event.target as HTMLInputElement;
     const val = (input.value || '').trim();

@@ -33,10 +33,14 @@ export class Menu {
     Class: string;
 }
 
+export class FiltroPerfil{
+    input?: string;
+    combo?: string;
+}
+
 export class Filtro{
     input?: string;
 }
-
 export class Response{
     mensaje?: string;
     accion: number;

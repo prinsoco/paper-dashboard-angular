@@ -15,6 +15,7 @@ import { UsuariosComponent } from '../../pages/usuarios/list-usuarios.component'
 import { MedicosComponent } from '../../pages/medicos/list-medico.component';
 import { ParametrosComponent } from '../../pages/configuracion/list-parametros.component';
 import { NotificacionesComponent } from '../../pages/notificaciones/list-notificaciones.component';
+import { CalendarioComponent } from '../../pages/citas/citas-medicos.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -31,5 +32,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'usuarios',          component: UsuariosComponent },
     { path: 'medicos',          component: MedicosComponent },
     { path: 'parametros',          component: ParametrosComponent },
-    { path: 'notificaciones',          component: NotificacionesComponent }
+    { path: 'notificaciones',          component: NotificacionesComponent },
+    { path: 'citas',          component: CalendarioComponent }
 ];

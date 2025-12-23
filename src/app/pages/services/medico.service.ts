@@ -38,4 +38,11 @@ import { Medico, IResponseDataMedico, Filtro } from "../interfaces/medico.interf
         const headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token); 
         return this.http.get<IResponseDataMedico<Medico[]>>(`${this.prefix}getById/${id}`, {headers: headers});
     } 
-  }
+
+    public getByUser(user: string) {
+    
+        const headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token)
+        .set('user', user); 
+        return this.http.get<IResponseDataMedico<Medico>>(`${this.prefix}getByUser`, {headers: headers});
+    }
+}

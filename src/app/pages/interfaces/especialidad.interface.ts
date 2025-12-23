@@ -18,6 +18,11 @@ export class Filtro{
     input?: string;
 }
 
+export class FiltroEspecialidad{
+    input?: string;
+    combo?: string;
+}
+
 export class Response{
     mensaje?: string;
     accion: number;

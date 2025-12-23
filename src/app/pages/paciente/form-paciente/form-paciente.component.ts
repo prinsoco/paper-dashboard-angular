@@ -34,6 +34,7 @@ export class FormPacienteComponent implements OnInit {
     titleForm : string;
     active = 1;
     dataForm: FormGroup;
+    ValidacionUsuario: string;
 
     constructor(
         private fb: FormBuilder,
@@ -93,7 +94,19 @@ export class FormPacienteComponent implements OnInit {
         }
     }
 
-    async createRegistro(){
+    createRegistro(){
+        this.apiService.getByUser(this.dataForm.controls['usuario'].value).subscribe(resp => {
+          if (resp != null){
+            this.ValidacionUsuario = "";
+            this.InsertarPaciente();
+          }
+          else{
+            this.ValidacionUsuario = "Usuario ya existe asignado a otro Paciente";
+          }
+        }); 
+    }
+
+    async InsertarPaciente(){
         var insertarData: Paciente = {
             pacienteId : 0,
             nombres : this.dataForm.controls['nombres'].value,

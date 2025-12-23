@@ -1,0 +1,106 @@
+/* Contenedor principal del modal */
+.modal-citas {
+  padding: 16px;
+  max-width: 520px;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+/* Título */
+.modal-citas h3 {
+  margin-bottom: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 6px;
+}
+
+/* Lista de citas */
+.lista-citas {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+}
+
+/* Item de cita */
+.cita-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  border-left: 4px solid #3498db;
+}
+
+/* Hora de la cita */
+.cita-hora {
+  font-weight: 600;
+  color: #34495e;
+}
+
+/* Nombre del paciente */
+.cita-paciente {
+  color: #555;
+  margin-left: 6px;
+  flex: 1;
+}
+
+/* Estado ocupado */
+.cita-ocupada {
+  border-left-color: #e74c3c;
+  background: #fdecea;
+}
+
+/* Mensaje sin citas */
+.sin-citas {
+  text-align: center;
+  font-size: 13px;
+  color: #777;
+  margin: 12px 0;
+}
+
+/* Acciones del modal */
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Botón agregar */
+.btn-agregar {
+  background-color: #2ecc71;
+  border: none;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #27ae60;
+  }
+
+  &:disabled {
+    background-color: #b2dfbd;
+    cursor: not-allowed;
+  }
+}
+
+/* Botón cerrar */
+.btn-cerrar {
+  background-color: #bdc3c7;
+  border: none;
+  color: #2c3e50;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #a6acaf;
+  }
+}

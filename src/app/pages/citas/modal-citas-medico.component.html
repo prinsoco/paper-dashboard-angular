@@ -1,0 +1,27 @@
+<div class="modal-citas">
+
+  <h3>Citas programadas</h3>
+
+  <ul class="lista-citas" *ngIf="citas.length > 0">
+    <li
+      class="cita-item"
+      *ngFor="let c of citas"
+      [ngClass]="{'cita-ocupada': true}">
+      
+      <span class="cita-hora">{{ c.hora }}</span>
+      <span class="cita-paciente">{{ c.paciente }}</span>
+    </li>
+  </ul>
+
+  <div class="sin-citas" *ngIf="citas.length === 0">
+    No existen citas programadas para este día
+  </div>
+
+  <div class="acciones">
+    <button class="btn-cerrar">Cerrar</button>
+    <button class="btn-agregar">
+      + Agregar cita
+    </button>
+  </div>
+
+</div>

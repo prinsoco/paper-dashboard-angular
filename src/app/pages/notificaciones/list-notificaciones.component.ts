@@ -6,8 +6,8 @@ import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Filtro, Paciente } from '../interfaces/paciente.interface';
-import { PacienteServices } from '../services/paciente.service';
+import { FiltroNoti, Notificaciones } from '../interfaces/notificacion.interface';
+import { NotificacionesServices } from '../services/notificacion.service';
 
 @Component({
     selector: 'app-notificaciones',
@@ -19,22 +19,22 @@ import { PacienteServices } from '../services/paciente.service';
 
 export class NotificacionesComponent implements OnInit{
     title: string;
-    arrayData: Paciente[];
-    filterArray: Paciente[] | null = null;
+    arrayData: Notificaciones[];
+    filterArray: Notificaciones[] | null = null;
     page: number = 1;
     pageSize: number = 10;
     totfilas: number = 0;
     filtrarTableForm: FormGroup;
     flagViewCards = true;
     flagEditView = false;
-    data: Paciente;
+    data: Notificaciones;
     textDescription = "activar"
     textSpinner = "Cargando..."
     action=""
     disabled = false;
     breadcumb= "";
 
-    constructor(private apiService: PacienteServices,
+    constructor(private apiService: NotificacionesServices,
         private fb: FormBuilder,
         private router: Router,
         private route: ActivatedRoute)
@@ -56,7 +56,7 @@ export class NotificacionesComponent implements OnInit{
             this.filterArray = [];
             this.arrayData = [];
 
-            var filtro: Filtro = {
+            var filtro: FiltroNoti = {
                 input: ""
             }
             var resp = await this.apiService.getAll(filtro).toPromise();
@@ -100,7 +100,7 @@ export class NotificacionesComponent implements OnInit{
     //#endregion: seccion grid view
 
     //#region: seccion editar perfil
-    public  showForm(input: Paciente | null, action: string){
+    public  showForm(input: Notificaciones | null, action: string){
         this.data = input;
         this.textSpinner = "Procesando...";
         switch (action) {

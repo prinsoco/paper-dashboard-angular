@@ -12,6 +12,8 @@ import { FixedPluginModule} from './shared/fixedplugin/fixedplugin.module';
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
 
+import { FullCalendarModule } from '@fullcalendar/angular';
+
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginModule } from "./pages/login/login.module";
 
@@ -31,7 +33,8 @@ import { LoginModule } from "./pages/login/login.module";
     FooterModule,
     FixedPluginModule,
     LoginModule,
-    HttpClientModule
+    HttpClientModule,
+    FullCalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { environment } from '../../../environments/environment';
-import { Perfil, IResponseDataGeneral, Filtro } from "../interfaces/rolxperfil.interface";
+import { Perfil, IResponseDataGeneral, Filtro, FiltroPerfil } from "../interfaces/rolxperfil.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -20,8 +20,10 @@ import { Perfil, IResponseDataGeneral, Filtro } from "../interfaces/rolxperfil.i
             return this.http.post(url_, input, {headers: headers});
         }
     
-        public getAll(filtros: Filtro) {
+        public getAll(filtros: FiltroPerfil) {
             let headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token)
+            .set('input', filtros.input)
+            .set('combo', filtros.combo);
             let url_ = `${this.prefix}getAll` ;
     
             return this.http.get<IResponseDataGeneral<Perfil[]>>(url_, {headers: headers});

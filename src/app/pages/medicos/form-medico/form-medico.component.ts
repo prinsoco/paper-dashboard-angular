@@ -12,10 +12,17 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 //import { tree } from 'd3';
 import { ToastrService } from "ngx-toastr";
+import {  } from 'rxjs';
 
 import { Medico, Filtro, FilterString,  } from '../../interfaces/medico.interface';
 import { environment } from '../../../../environments/environment';
 import { MedicoServices } from '../../services/medico.service';
+import { PerfilServices } from '../../services/perfil.service';
+import { Perfil, FiltroPerfil  } from '../../interfaces/rolxperfil.interface';
+import { EspecialidadServices } from '../../services/especialidad.service';
+import { Especialidad, FiltroEspecialidad  } from '../../interfaces/especialidad.interface';
+import { UtilsGeneral } from '../../../shared/utils/utils-general';
+import { EmailValidoDirective } from '../../../shared/utils/utils-email';
 
 
 @Component({
@@ -32,13 +39,25 @@ export class FormMedicoComponent implements OnInit {
     @Output() flagViewCards = new EventEmitter<string>();
     @ViewChild(FormMedicoComponent) table: FormMedicoComponent | any;
     
+    perfil: Perfil;
     titleForm : string;
     active = 1;
     dataForm: FormGroup;
+    arrayDataPerfil: Perfil[];
+    arrayDataEspecialidad: Especialidad[];
+    ValidacionUsuario: string
+    emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/;
+    emailPatterns = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
+    emailPatterns1 = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    ValidacionEmail: string;
 
     constructor(
         private fb: FormBuilder,
         private apiService: MedicoServices,
+        private apiServicePerfil: PerfilServices,
+        private apiServiceEsp: EspecialidadServices,
+        private utils: UtilsGeneral,
+        private email: EmailValidoDirective,
         private toastr: ToastrService) {
             this.titleForm = "Agregar";
     }
@@ -46,6 +65,9 @@ export class FormMedicoComponent implements OnInit {
     ngOnInit() {
        console.log("Formulario");
         this.validateForms();
+        this.getAllPerfiles();
+        this.getAllEspecialidades();
+        this.asignarData();
     }
 
      viewCards(){
@@ -53,9 +75,44 @@ export class FormMedicoComponent implements OnInit {
         this.flagViewCards.emit("cancel");
     }
 
-    /*public showNotification( type: string, message: string ): void {
-		this.notifier.notify( type, message );
-	}*/
+    getAllPerfiles(){
+        try {
+            this.arrayDataPerfil = [];
+
+            var filtro: FiltroPerfil = {
+                input: "",
+                combo: "S"
+            }
+            
+            this.apiServicePerfil.getAll(filtro).subscribe(resp => {
+              this.arrayDataPerfil = resp?.data ?? [];
+              this.perfil = this.arrayDataPerfil.find(c => c.codigo == "COD_MED");
+              this.asignarData();
+            });
+              
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    getAllEspecialidades(){
+        try {
+            this.arrayDataEspecialidad = [];
+
+            var filtro: FiltroEspecialidad = {
+                input: "",
+                combo: "S"
+            }
+            
+            this.apiServiceEsp.getAll(filtro).subscribe(resp => {
+              this.arrayDataEspecialidad = resp?.data ?? [];
+              this.asignarData();
+            });
+
+        } catch (error) {
+            console.log(error);
+        }
+      }
 
     validateForms(){
         switch (this.action) {
@@ -67,11 +124,13 @@ export class FormMedicoComponent implements OnInit {
                     apellidos: ['', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(?: [A-Za-zÁÉÍÓÚáéíóúÑñ]+)?$/)]],
                     identificacion: ['', [Validators.required]],
                     usuario: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9]+$/)]],
-                    email: ['', [Validators.required, Validators.email]],
+                    email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
                     edad: [''],
                     telefono: [''],
                     celular: [''],
-                    direccion: ['']
+                    direccion: [''],
+                    perfil: [{ value: '', disabled: true}, [Validators.required]],
+                    especialidad: [{ value: '' }, [Validators.required]]
                 });
                 break;
             case 'edit':
@@ -82,11 +141,13 @@ export class FormMedicoComponent implements OnInit {
                     apellidos: [this.data.apellidos, [Validators.required]],
                     identificacion: [this.data.identificacion, [Validators.required]],
                     usuario: [{ value: this.data.usuario, disabled: true }, [Validators.required]],
-                    email: [this.data.email, [Validators.required, Validators.email]],
+                    email: [this.data.email, [Validators.required, Validators.pattern(this.emailPattern)]],
                     edad: [this.data.edad],
                     telefono: [this.data.telefono],
                     celular: [this.data.celular],
-                    direccion: [this.data.direccion]
+                    direccion: [this.data.direccion],
+                    perfil: [{ value: this.data.perfilId, disabled: true },[Validators.required]],
+                    especialidad: [{ value: this.data.especialidadId }, [Validators.required]]
                 });
                 break;
             default:
@@ -94,8 +155,35 @@ export class FormMedicoComponent implements OnInit {
         }
     }
 
-    async createRegistro(){
-        var insertarData: Medico = {
+    asignarData(){
+      switch (this.action) {
+            case 'add':
+                this.dataForm.controls['perfil'].setValue(this.perfil?.perfilId);
+                this.dataForm.controls['especialidad'].setValue("0");
+                break;
+            case 'edit':
+                this.dataForm.controls['perfil'].setValue(this.data.perfilId);
+                this.dataForm.controls['especialidad'].setValue(this.data.especialidadId);
+                break;
+            default:
+                break;
+        }
+    }
+
+    createRegistro(){
+        this.apiService.getByUser(this.dataForm.controls['usuario'].value).subscribe(resp => {
+          if (resp != null && resp.data != null){
+            this.ValidacionUsuario = "Usuario ya existe asignado a otro Médico";
+          }
+          else{
+            this.ValidacionUsuario = "";
+            this.InsertarMedico();
+          }
+        }); 
+    }
+
+    async InsertarMedico(){
+      var insertarData: Medico = {
             medicoId : 0,
             nombres : this.dataForm.controls['nombres'].value,
             apellidos : this.dataForm.controls['apellidos'].value,
@@ -106,6 +194,8 @@ export class FormMedicoComponent implements OnInit {
             telefono : this.dataForm.controls['telefono'].value,
             celular : this.dataForm.controls['celular'].value,
             direccion : this.dataForm.controls['direccion'].value,
+            especialidadId : this.dataForm.controls['especialidad'].value,
+            perfilId : this.dataForm.controls['perfil'].value,
             usuarioCreacion : "admin",
             estado: true
         }
@@ -120,14 +210,12 @@ export class FormMedicoComponent implements OnInit {
         .catch((err) => {
             this.showNotification(4, "top","right", "Error al registrar la información");
         });
-        
     }
 
     async editRegistro(){
         var editData: Medico = {
             medicoId: this.data.medicoId,
             perfilId: this.data.perfilId,
-            especialidadId: this.data.especialidadId,
             nombres : this.dataForm.controls['nombres'].value,
             apellidos : this.dataForm.controls['apellidos'].value,
             identificacion : this.dataForm.controls['identificacion'].value,
@@ -137,6 +225,7 @@ export class FormMedicoComponent implements OnInit {
             telefono : this.dataForm.controls['telefono'].value,
             celular : this.dataForm.controls['celular'].value,
             direccion : this.dataForm.controls['direccion'].value,
+            especialidadId : this.dataForm.controls['especialidad'].value,
             usuarioCreacion : "admin",
             usuarioModificacion : "admin",
             estado: true
@@ -232,11 +321,33 @@ export class FormMedicoComponent implements OnInit {
   }
 
   soloNumeros(event: KeyboardEvent) {
-        const pattern = /^[0-9]$/;
+        /*const pattern = /^[0-9]$/;
         const inputChar = event.key;
 
         if (!pattern.test(inputChar)) {
             event.preventDefault();
-        }
+        }*/
+       this.utils.soloNumeros(event);
+    }
+
+    soloLetra(event: KeyboardEvent) {
+        this.utils.onlyLettersNoSpaces(event);
+    }
+
+    emailOnkeyDown(event: KeyboardEvent){
+      const email = this.email.isValidEmail(this.dataForm.controls["email"].value);
+      console.log(email);
+      if(email)
+      {
+        this.ValidacionEmail = "";
+      }
+      else{
+        this.ValidacionEmail = "Se requiere correo electrónico y el formato debe ser tucorreo@doe.com.";
+      }
+    }
+
+    emailonBlur(event: FocusEvent){
+      this.email.onBlur(event);
+
     }
 }
