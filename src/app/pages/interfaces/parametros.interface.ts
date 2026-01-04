@@ -16,8 +16,11 @@ export interface IResponseDataParametros<T> {
     data: T;
 }
 
-export class Filtro{
+export class FiltroParam{
     input?: string;
+    combo?: string;
+    tipo?: string;
+    codigo?: string;
 }
 
 export class Response{

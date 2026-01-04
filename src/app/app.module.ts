@@ -16,6 +16,10 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginModule } from "./pages/login/login.module";
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NotifierService } from 'angular-notifier';
+import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -34,9 +38,15 @@ import { LoginModule } from "./pages/login/login.module";
     FixedPluginModule,
     LoginModule,
     HttpClientModule,
-    FullCalendarModule
+    FullCalendarModule,
+    NgSelectModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    NgbModule,
+    NgbTooltipModule
   ],
-  providers: [],
+  providers: [
+    NotifierService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

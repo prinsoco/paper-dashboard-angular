@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { environment } from '../../../environments/environment';
-import { Medico, IResponseDataMedico, Filtro } from "../interfaces/medico.interface";
+import { Medico, IResponseDataMedico, Filtro, FiltroMedico } from "../interfaces/medico.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -20,9 +20,26 @@ import { Medico, IResponseDataMedico, Filtro } from "../interfaces/medico.interf
         return this.http.post(url_, input, {headers: headers});
     }
 
-    public getAll(filtros: Filtro) {
+    public getAll(filtroMed: FiltroMedico) {
         let headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token)
-        .set('input', filtros.input);
+        .set('input', filtroMed?.input ?? "");
+
+        if(filtroMed?.especialidadId != undefined)
+        {
+            headers.set('especialidadId', filtroMed?.especialidadId+"");
+        }
+
+        if(filtroMed?.combo != undefined)
+        {
+            headers.set('combo', filtroMed?.combo ?? "");
+        }
+
+        if(filtroMed?.identificacion != undefined)
+        {
+            headers.set('identificacion', filtroMed?.identificacion ?? "")
+        }
+        
+        ;
         let url_ = `${this.prefix}getAll` ;
 
         return this.http.get<IResponseDataMedico<Medico[]>>(url_, {headers: headers});

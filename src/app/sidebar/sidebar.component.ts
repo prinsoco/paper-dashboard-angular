@@ -22,7 +22,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/medicos',       title: 'Médicos',    icon:'nc-ambulance',  class: '' },
     { path: '/parametros',       title: 'Parámetros',    icon:'nc-tile-56',  class: '' },
     { path: '/notificaciones',       title: 'Plantillas',    icon:'nc-paper',  class: '' },
-    { path: '/citas',       title: 'Citas',    icon:'nc-paper',  class: '' }
+    { path: '/citas',       title: 'Citas',    icon:'nc-paper',  class: '' },
     //{ path: '/typography',    title: 'Typography',        icon:'nc-caps-small', class: '' },
     //{ path: '/upgrade',       title: 'Upgrade to PRO',    icon:'nc-spaceship',  class: 'active-pro' }
 ];

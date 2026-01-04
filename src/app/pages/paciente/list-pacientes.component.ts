@@ -6,7 +6,7 @@ import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Filtro, Paciente } from '../interfaces/paciente.interface';
+import { Filtro, FiltroPaciente, Paciente } from '../interfaces/paciente.interface';
 import { PacienteServices } from '../services/paciente.service';
 
 declare interface TableData {
@@ -85,7 +85,7 @@ export class PacientesComponent implements OnInit{
             this.filterArray = [];
             this.arrayData = [];
 
-            var filtro: Filtro = {
+            var filtro: FiltroPaciente = {
                 input: ""
             }
             var resp = await this.apiService.getAll(filtro).toPromise();

@@ -3,6 +3,7 @@ import Chart from 'chart.js';
 
 import { Filtro, SeccionOne } from '../interfaces/dashboard.interface';
 import { DashBoardServices } from '../services/dashboard.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,11 +25,14 @@ export class DashboardComponent implements OnInit{
   totEspecialidades: number;
   totMedico: number;
   data: SeccionOne;
-
-  constructor(private apiService: DashBoardServices)
+  tipoPerfil?: string;
+  userId?: number;
+  
+  constructor(private apiService: DashBoardServices, private router: Router)
   {}
 
     ngOnInit(){
+      this.validaUserLogin();
       this.getSeccionOne();
       this.chartColor = "#FFFFFF";
       /*
@@ -239,5 +243,22 @@ export class DashboardComponent implements OnInit{
         } catch (error) {
             console.log(error);
         }
+    }
+
+    validaUserLogin(){
+      const token = localStorage.getItem('token');
+      const usuario = localStorage.getItem('loginUsuario');
+      const userId = localStorage.getItem('loginId');
+      const perfilId = localStorage.getItem('loginPerfilId');
+      const perfil = localStorage.getItem('loginPerfil');
+      const time = localStorage.getItem('time');
+
+      if(usuario && perfil && userId){
+          this.tipoPerfil = perfil;
+          this.userId = parseInt(userId);
+      }
+      else{
+        console.log("sin datos");
+      }
     }
 }

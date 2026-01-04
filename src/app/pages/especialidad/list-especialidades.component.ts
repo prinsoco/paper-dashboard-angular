@@ -36,6 +36,8 @@ export class EspecialidadesComponent implements OnInit{
     breadcumb= "";
     dataForm: FormGroup;
     titleForm: string;
+    tipoPerfil?: string;
+    userId?: number;
 
 
     constructor(private apiService: EspecialidadServices,
@@ -50,7 +52,7 @@ export class EspecialidadesComponent implements OnInit{
 
     ngOnInit(){
         this.textSpinner = "Cargando...";
-
+        this.validaUserLogin();
         this.cancelarRegistro();
         this.cargarInfoFiltro();
         this.getAll();
@@ -261,6 +263,23 @@ export class EspecialidadesComponent implements OnInit{
         break;
     }
   }
+
+  validaUserLogin(){
+      const token = localStorage.getItem('token');
+      const usuario = localStorage.getItem('loginUsuario');
+      const userId = localStorage.getItem('loginId');
+      const perfilId = localStorage.getItem('loginPerfilId');
+      const perfil = localStorage.getItem('loginPerfil');
+      const time = localStorage.getItem('time');
+
+      if(usuario && perfil && userId){
+          this.tipoPerfil = perfil;
+          this.userId = parseInt(userId);
+      }
+      else{
+        console.log("sin datos");
+      }
+    }
 }
 
 export function cardsAnimation(){

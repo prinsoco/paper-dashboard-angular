@@ -6,7 +6,7 @@ import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Filtro, Medico } from '../interfaces/medico.interface';
+import { Filtro, FiltroMedico, Medico } from '../interfaces/medico.interface';
 import { MedicoServices } from '../services/medico.service';
 
 declare interface TableData {
@@ -40,6 +40,8 @@ export class MedicosComponent implements OnInit{
     action=""
     disabled = false;
     breadcumb= "";
+    tipoPerfil?: string;
+    userId?: number;
 
     constructor(private apiService: MedicoServices,
         private fb: FormBuilder,
@@ -51,6 +53,7 @@ export class MedicosComponent implements OnInit{
 
     ngOnInit(){
         this.textSpinner = "Cargando...";
+        this.validaUserLogin();
         this.tableData1 = {
             headerRow: [ 'ID', 'Name', 'Country', 'City', 'Salary'],
             dataRows: [
@@ -85,8 +88,9 @@ export class MedicosComponent implements OnInit{
             this.filterArray = [];
             this.arrayData = [];
 
-            var filtro: Filtro = {
-                input: ""
+            var filtro: FiltroMedico = {
+                input: "",
+                combo: "N"
             }
             var resp = await this.apiService.getAll(filtro).toPromise();
             this.arrayData = resp?.data ?? [];
@@ -167,6 +171,23 @@ export class MedicosComponent implements OnInit{
   
         }
   
+    }
+
+    validaUserLogin(){
+      const token = localStorage.getItem('token');
+      const usuario = localStorage.getItem('loginUsuario');
+      const userId = localStorage.getItem('loginId');
+      const perfilId = localStorage.getItem('loginPerfilId');
+      const perfil = localStorage.getItem('loginPerfil');
+      const time = localStorage.getItem('time');
+
+      if(usuario && perfil && userId){
+          this.tipoPerfil = perfil;
+          this.userId = parseInt(userId);
+      }
+      else{
+        console.log("sin datos");
+      }
     }
     //#endregion: seccion editar perfil
 }

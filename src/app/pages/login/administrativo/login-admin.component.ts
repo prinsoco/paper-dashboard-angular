@@ -1,18 +1,17 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginAut, LoginFiltro } from '../interfaces/login.interface';
-import { AutorizacionServices } from '../services/autorizacion.service';
+import { LoginAut, LoginFiltro } from '../../interfaces/login.interface';
+import { AutorizacionServices } from '../../services/autorizacion.service';
 import { Router } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-login-admin',
+  templateUrl: './login-admin.component.html',
+  styleUrls: ['./login-admin.component.scss']
 })
-export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+export class LoginAdminComponent implements OnInit {
+  loginFormAd: FormGroup;
   submitted = false;
   invalidLogin: boolean;
   emailRequerido: boolean;
@@ -20,6 +19,8 @@ export class LoginComponent implements OnInit {
   passRequerido: boolean;
   passMinLen: boolean;
   passError: number;
+  tusuario: boolean;
+  tusuarioError: number
 
   constructor(private fb: FormBuilder,
     private apiService: AutorizacionServices,
@@ -31,6 +32,8 @@ export class LoginComponent implements OnInit {
     this.passMinLen = false;
     this.passError = 0;
     this.passRequerido = false;
+    this.tusuario = false;
+    this.tusuarioError = 0;
   }
 
   ngOnInit(): void {
@@ -38,15 +41,19 @@ export class LoginComponent implements OnInit {
   }
 
   iniciaForm(){
-     this.loginForm = this.fb.group({
+     this.loginFormAd = this.fb.group({
+      tipoUsuario: ['', [Validators.required]],
       emailuser: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+
+    this.loginFormAd.controls["tipoUsuario"].setValue('0');
   }
 
   validarFrom() {
-    const emailPass = this.loginForm.controls["emailuser"].errors;
-    const errorPass = this.loginForm.controls["password"].errors;
+    const emailPass = this.loginFormAd.controls["emailuser"].errors;
+    const errorPass = this.loginFormAd.controls["password"].errors;
+    const tipoUsuario = this.loginFormAd.controls["tipoUsuario"].value;
 
     if(emailPass != null && emailPass != undefined){
       this.emailError = 1;
@@ -82,18 +89,27 @@ export class LoginComponent implements OnInit {
     else{
       this.passError = 0;
     }
+
+    if(tipoUsuario === "0"){
+      this.tusuario = true;
+      this.tusuarioError = 1;
+    }
+    else{
+      this.tusuario = false;
+      this.tusuarioError = 0;
+    }
   }
 
   async onSubmit() {
     this.submitted = true;
-    if (!this.loginForm.invalid) {
+    if (!this.loginFormAd.invalid) {
       var filtro: LoginFiltro = {
-        clave: this.loginForm.controls["password"].value,
-        usuarioEmail: this.loginForm.controls["emailuser"].value,
-        tipoUsuario: "P"
+        clave: this.loginFormAd.controls["password"].value,
+        usuarioEmail: this.loginFormAd.controls["emailuser"].value,
+        tipoUsuario: this.loginFormAd.controls["tipoUsuario"].value
       }
 
-      var resp = await this.apiService.login(filtro, "Paciente").toPromise()
+      var resp = await this.apiService.login(filtro, filtro?.tipoUsuario?.toString() == "A" ? "Usuario" : "Medico").toPromise()
       .then(res => {
         this.invalidLogin = false;
         const infoLogin = (<LoginAut>res);
@@ -119,7 +135,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem("time", infoLogin.time);
           localStorage.setItem("lastLogin", infoLogin.lastLogin);
 
-          this.router.navigate(["/citas"]);
+          this.router.navigate(["/dashboard"]);
         }
       })
       .catch((err) => {
@@ -133,18 +149,22 @@ export class LoginComponent implements OnInit {
           this.showNotification(3, "top","right", "Error en autenticacion");
         }
       });
-      return;
     }
     else{
       this.validarFrom();
     }
 
-    console.log('Login data:', this.loginForm.value);
+    console.log('Login data:', this.loginFormAd.value);
   }
 
-  reiniciarVariables(){
+  irAdministrativo() {
+      event.preventDefault(); // Evita que navegue por href="#"
+      console.log('Click en administrativo');
 
-  }
+      // Aquí tu lógica
+      // Ej: validar rol, luego redirigir:
+      // this.router.navigate(['/dashboard']);
+    }
 
   showNotification(color: number, from, align, mensaje: string) {
 

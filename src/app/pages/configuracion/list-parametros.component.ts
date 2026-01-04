@@ -7,7 +7,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 
-import { Filtro, Parametros } from '../interfaces/parametros.interface';
+import { FiltroParam, Parametros } from '../interfaces/parametros.interface';
 import { ParametroServices } from '../services/parametros.service';
 
 @Component({
@@ -36,6 +36,8 @@ export class ParametrosComponent implements OnInit{
     breadcumb= "";
     dataForm: FormGroup;
     titleForm: string;
+    tipoPerfil?: string;
+    userId?: number;
 
 
     constructor(private apiService: ParametroServices,
@@ -50,7 +52,7 @@ export class ParametrosComponent implements OnInit{
 
     ngOnInit(){
         this.textSpinner = "Cargando...";
-
+        this.validaUserLogin();
         this.cancelarRegistro();
         this.cargarInfoFiltro();
         this.getAll();
@@ -63,7 +65,7 @@ export class ParametrosComponent implements OnInit{
             this.filterArray = [];
             this.arrayData = [];
 
-            var filtro: Filtro = {
+            var filtro: FiltroParam = {
                 input: ""
             }
             var resp = await this.apiService.getAll(filtro).toPromise();
@@ -267,6 +269,23 @@ export class ParametrosComponent implements OnInit{
         break;
       default:
         break;
+    }
+  }
+
+  validaUserLogin(){
+    const token = localStorage.getItem('token');
+    const usuario = localStorage.getItem('loginUsuario');
+    const userId = localStorage.getItem('loginId');
+    const perfilId = localStorage.getItem('loginPerfilId');
+    const perfil = localStorage.getItem('loginPerfil');
+    const time = localStorage.getItem('time');
+
+    if(usuario && perfil && userId){
+        this.tipoPerfil = perfil;
+        this.userId = parseInt(userId);
+    }
+    else{
+      console.log("sin datos");
     }
   }
 }

@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule  } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { CKEditorModule } from 'ng2-ckeditor';
-
+import { NotifierModule, NotifierService } from 'angular-notifier';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardComponent }       from '../../pages/dashboard/dashboard.component';
 import { UserComponent }            from '../../pages/user/user.component';
 import { PacientesComponent }           from '../../pages/paciente/list-pacientes.component';
@@ -27,6 +27,9 @@ import { NotificacionesComponent } from '../../pages/notificaciones/list-notific
 import { FormNotificacionComponent } from '../../pages/notificaciones/form-notificacion/form-notificacion.component';
 import { CalendarioComponent } from '../../pages/citas/citas-medicos.component';
 import { FullCalendarModule } from "@fullcalendar/angular";
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ModalCitasComponent } from '../../pages/citas/modal-citas-medico.component';
 
 @NgModule({
   imports: [
@@ -36,8 +39,15 @@ import { FullCalendarModule } from "@fullcalendar/angular";
     ReactiveFormsModule,
     NgbModule,
     CKEditorModule,
-    FullCalendarModule
+    FullCalendarModule,
+    NgSelectModule,
+    NgMultiSelectDropDownModule,
+    NotifierModule,
+    NgbModalModule
 ],
+providers: [
+        NotifierService
+    ],
   declarations: [
     DashboardComponent,
     UserComponent,
@@ -58,7 +68,8 @@ import { FullCalendarModule } from "@fullcalendar/angular";
     ParametrosComponent,
     NotificacionesComponent,
     FormNotificacionComponent,
-    CalendarioComponent
+    CalendarioComponent,
+    ModalCitasComponent
   ]
 })
 

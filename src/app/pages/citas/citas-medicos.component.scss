@@ -3,7 +3,7 @@
   flex-direction: column !important;
   gap: 6px !important;
 }
-
+/*
 .doctor-card {
   display: flex !important;
   align-items: center !important;
@@ -37,30 +37,70 @@
     width: fit-content !important;
   }
 }
-
+*/
 .dia-bloqueado {
   background: #eee !important;
   pointer-events: none !important;
   opacity: 0.5 !important;
 }
 
-/*
- Oculta la columna de horas (0–23) 
-:host ::ng-deep .fc-timegrid-slot-label,
-:host ::ng-deep .fc-timegrid-axis {
-  display: none !important;
+.doctor-card {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  width: 100%;
 }
 
- Elimina el ancho reservado 
-:host ::ng-deep .fc-timegrid-axis-frame {
-  width: 0 !important;
+/* LINEA 1 */
+.linea-1 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
- Ajusta el grid para ocupar todo el ancho 
-:host ::ng-deep .fc-timegrid-cols {
-  margin-left: 0 !important;
+.doctor-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
-*/
+
+.doctor-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+/* LINEA 2 */
+.linea-2 {
+  text-align: center;
+  font-weight: bold;
+  margin: 4px 0;
+  width: 100%;
+}
+
+/* LINEA 3 */
+.linea-3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge {
+  background: #17a2b8;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+.add-cita {
+  width: 20px;
+  cursor: pointer;
+}
+
+.fc-event-main {
+  display: block !important;
+}
 
 .fc-dia-feriado {
   background-color: #EEE !important;
@@ -68,3 +108,25 @@
   opacity: 0.6 !important;
 }
 
+.ng-option{
+  padding: 5px 5px 5px 5px !important;
+}
+
+.multiselect-dropdown .dropdown-btn{
+  padding: 5px 12px !important;
+  border: 1px solid #DDDDDD !important;
+  color: #66615b !important;
+}
+
+.myCustomModalClassSupervisores .modal-dialog {
+  max-width: 800px;
+}
+
+
+ngb-modal-backdrop {
+  z-index: 1040 !important;
+}
+
+.modal.show {
+  z-index: 1050 !important;
+}

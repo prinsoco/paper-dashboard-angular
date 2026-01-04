@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { environment } from '../../../environments/environment';
-import { Paciente, IResponseDataPaciente, Filtro } from "../interfaces/paciente.interface";
+import { Paciente, IResponseDataPaciente, Filtro, FiltroPaciente } from "../interfaces/paciente.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -20,9 +20,10 @@ import { Paciente, IResponseDataPaciente, Filtro } from "../interfaces/paciente.
         return this.http.post(url_, input, {headers: headers});
     }
 
-    public getAll(filtros: Filtro) {
+    public getAll(filtros: FiltroPaciente) {
         let headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token)
-        .set('input', filtros.input);
+        .set('input', filtros.input)
+        .set('combo', filtros.combo);
         let url_ = `${this.prefix}getAll` ;
 
         return this.http.get<IResponseDataPaciente<Paciente[]>>(url_, {headers: headers});

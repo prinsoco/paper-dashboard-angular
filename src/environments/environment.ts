@@ -17,6 +17,8 @@ export const environment = {
     dashboardService: 'http://localhost:5005/api/DashBoard/',
     parametroService: 'http://localhost:5005/api/Parametros/',
     notificacionService: 'http://localhost:5005/api/Notificacion/',
-    horarioServices: 'http://localhost:5005/api/Horarios/'
+    horarioServices: 'http://localhost:5005/api/Horarios/',
+    citasServices: 'http://localhost:5005/api/Cita/',
+    authServices: 'http://localhost:5005/api'
   }
 };

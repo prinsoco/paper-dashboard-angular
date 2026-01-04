@@ -1,107 +1,290 @@
-import { Component, OnInit } from '@angular/core';
+import { NgModule, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation, ViewChild } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import { HttpClient } from '@angular/common/http';
-
+import { forkJoin } from 'rxjs';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-
-import { Doctor } from '../interfaces/medico.interface';
-import { CitasServices } from '../services/citas.service';
-import { Horarios, HorariosMedico } from '../interfaces/citas.interface';
-import { ModalCitasComponent } from '../citas/modal-citas-medico.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NumberSymbol } from '@angular/common';
+import { ToastrService } from "ngx-toastr";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Doctor, Filtro, FiltroMedico, Medico } from '../interfaces/medico.interface';
+import { CitasServices } from '../services/citas.service';
+import { CitasMedico, Feriados, Horarios, HorariosMedico, HorasLaborales, InfoModal } from '../interfaces/citas.interface';
+import { ModalCitasComponent } from '../citas/modal-citas-medico.component';
+import { EspecialidadServices } from '../services/especialidad.service';
+import { Especialidad, FiltroEspecialidad } from '../interfaces/especialidad.interface';
+import { MedicoServices } from '../services/medico.service';
+import { PacienteServices } from '../services/paciente.service';
+import { FiltroPaciente, Paciente } from '../interfaces/paciente.interface';
+import { ParametroServices } from '../services/parametros.service';
+import { FiltroParam, Parametros } from '../interfaces/parametros.interface';
 
 @Component({
   selector: 'app-calendario',
   templateUrl: './citas-medicos.component.html',
   styleUrls: ['./citas-medicos.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CalendarioComponent implements OnInit {
+  @ViewChild('modalAsignarCita') modalAsignarCita!: NgbModal;
 
+  anios?: string = "";
+  render?: string = "Renderizar";
+  renderValor?: number = 0;
+  tipoCalendet?: string = "Calender";
   doctores: Doctor[] = [];
   feriados: string[] = [];
   meses: string[] = [];
   horarios: Horarios[] = [];
   citas: any[] = [];
   horariosMedico: HorariosMedico[] = [];
-
+  horarioCalender: HorariosMedico[] = [];
+  horarioDia: HorariosMedico[] = [];
   calendarOptions!: CalendarOptions;
+  dataReady = false;
+  viewReady = false;
+  especialidades: Especialidad[] = [];
+  medicos: Medico[] = [];
+  pacientes: Paciente[];
+  pacienteSeleccionados: Paciente[] = [];
+  filtrarTableForm: FormGroup;
+  mostrarPaciente: boolean = false;
+  pacienteLogin: string = "";
+  dropdownSettingsMultiplePaciente = {};
+  closeDropdownSelection = false;
+  listParam: Parametros[] = [];
+  dataInfoCitasHorario: InfoModal;
+  controles: boolean = false;
+  disabledPaciente?: boolean;
+  tipoPerfil?: string;
+  userId?: number;
 
-  constructor(private apiServices: CitasServices) {}
+  constructor(private apiServices: CitasServices,
+    private apiServEsp: EspecialidadServices,
+    private apiServMed: MedicoServices,
+    private apiServPaciente: PacienteServices,
+    private apiServParam: ParametroServices,
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastr: ToastrService,
+    private modalService: NgbModal
+  ) {
+    this.disabledPaciente = false;
+    this.controles = false;
+  }
 
   ngOnInit(): void {
-    this.cargarDatos();
+    this.validaUserLogin();
+    this.cargaInicial();
+    //this.generarHorarios(0,0);   
+  }
+
+  ngAfterViewInit(): void{
+    this.viewReady = true;
+    this.tryInit();
+  }
+
+  cargaInicial(){
+    this.getParametros();
+    this.cargarSettingsDropwdown();
+    this.cargarInfoFiltros();
+    this.pacienteSeleccionados = [];
+    this.cargarPacientes();
+    this.cargarDatos("0","0","0", true);
     this.configurarCalendarioInitial();
-    this.generarHorarios(0,0);
-    
   }
 
-  cargarDatos() {
-    /*this.apiServices.getDoctores().subscribe(r => {
-      //this.doctores = r;
-      console.log(r);
-    });*/
-    this.doctores = [
-      {
-        id: 1,
-        nombre: 'Dr. Juan Pérez',
-        especialidad: 'Cardiología',
-        foto: 'assets/img/logo-small.png',
-        horarioTexto: '09:00 - 13:00 / 15:00 - 19:00',
-        diasAtencion: [1,2,3,4,5,15,16,17]
-      },
-      {
-        id: 2,
-        nombre: 'Dra. Ana Torres',
-        especialidad: 'Pediatría',
-        foto: 'assets/img/logo-small.png',
-        horarioTexto: '08:00 - 14:00',
-        diasAtencion: [1,3,5,19]
+  cargaPostModal(){
+    this.cargarInfoFiltros();
+    this.cargarDatos("0","0","0", true);
+    this.configurarCalendarioInitial();
+    this.cargarSettingsDropwdown();
+    this.pacienteSeleccionados = [];
+  }
+
+  cargarInfoFiltros(){
+      this.filtrarTableForm = this.fb.group({
+        especialidad: ['0'],
+        medico: ['0'],
+        paciente: ['0'],
+        pacienteInfo: [{ value: '', disabled: false}]
+    });
+
+    this.filtrarTableForm.controls['especialidad'].setValue("0");
+    this.filtrarTableForm.controls['medico'].setValue("0");
+    this.filtrarTableForm.controls['paciente'].setValue("0");
+  }
+
+  cleanFilters(): void{
+    this.dataReady = false;
+    this.filtrarTableForm.reset();
+    this.filtrarTableForm.controls["especialidad"].setValue('0');
+    this.filtrarTableForm.controls["medico"].setValue('0');
+    this.filtrarTableForm.controls["paciente"].setValue('0');
+    this.filtrarTableForm.controls["pacienteInfo"].setValue('');
+    this.pacienteSeleccionados = [];
+    this.cargaInicial();
+  }
+
+  cargarSettingsDropwdown(){
+    this.dropdownSettingsMultiplePaciente = {
+         singleSelection: true,
+         idField: 'pacienteId',
+         textField: 'pacienteInfo',
+         searchPlaceholderText : 'Buscar',
+         unSelectAllText: 'UnSelect All',
+         allowSearchFilter: true,
+         closeDropDownOnSelection: this.closeDropdownSelection
+         };
+   }
+
+  cargarDatos(medicoId: string, especialidadId: string, pacienteId: string, inicial: boolean) {
+    var filtroEsp: FiltroEspecialidad = {
+        input: "",
+        combo: "S"
+    }
+
+    if(inicial)
+    {
+      forkJoin({
+        listEspecialidad: this.apiServEsp.getAll(filtroEsp),
+        feriado: this.apiServices.getAllFeriados(this.anios),
+        horarioMedico: this.apiServices.getAllHorario("0", "0", "0", null)
+      }).subscribe(({ listEspecialidad,feriado, horarioMedico }) => {
+        this.feriados = this.generarListFeriados(feriado.data);
+        this.horariosMedico = horarioMedico?.data;
+        this.especialidades = listEspecialidad?.data ?? [];
+        this.dataReady = true;
+        this.tryInit();
+      });
+    }
+    else
+    {
+      this.generarHorarios(medicoId, especialidadId, pacienteId);
+    }
+  }
+
+  cargarDatosActualizar() {
+    this.dataReady = false;
+
+    const especialidadId: string = this.filtrarTableForm.controls["especialidad"].value;
+    const medicoId: string = this.filtrarTableForm.controls["medico"].value;
+    console.log(this.pacienteSeleccionados);
+    let pacienteId: string = "";
+    
+    this.pacienteSeleccionados.forEach(x => {
+      pacienteId = x.pacienteId?.toString()
+    });
+
+    this.cargarDatos(medicoId, especialidadId, pacienteId, false);
+  }
+
+  onItemSelectEspecialidad(item: any) {
+    console.log(item);
+    if(item.target != undefined)
+    {
+      const value = (item.target as HTMLSelectElement).value;
+      console.log('Especialidad seleccionada:', value);
+      this.cargarMedicos(value);
+    }
+  }
+
+  cargarMedicos(especialidadId: string){
+    if(especialidadId != "0")
+    {
+      var filtroMed: FiltroMedico = {
+          input: "",
+          combo: "S",
+          especialidadId: parseInt(especialidadId)
       }
-    ];
-    
-    /*this.apiServices.getFeriados().subscribe(r => {
-      //this.feriados = r;
-      console.log(r);
-    });*/
-    this.feriados = [
-      "2025-01-01",
-      "2025-05-01",
-      "2025-12-25",
-      "2025-12-19",
-      "2026-01-01",
-      "2026-01-02"
-    ]
 
-    this.apiServices.getMes().subscribe(r => {
-      //this.meses = r;
-      console.log(r);
-    });
-
-    this.apiServices.getHorarios().subscribe(r => {
-      //this.horarios = r;
-      console.log(r);
-    });
-
-    this.citas = [
-      { doctorId: 1, fecha: '2025-03-05', hora: '09:00', paciente: 'Carlos M.' },
-      { doctorId: 1, fecha: '2025-03-05', hora: '10:00', paciente: 'María G.' }
-    ];
-
+      this.apiServMed.getAll(filtroMed).subscribe(r => {
+        this.medicos = r?.data ?? []
+        console.log(r);
+        if(this.medicos.length == 0)
+        {
+          this.showNotification(3, "top","right", "No existen médicos para la especialidad seleccionada.");
+        }
+      });
+    }
   }
 
-  generarHorarios(medicoId: number, especialidadId: number){
-    this.apiServices.getAllHorario(medicoId, especialidadId).subscribe(response => {
-      this.horariosMedico = response.data;
+  cargarPacientes(){
+    var filtroPac: FiltroPaciente = {
+        input: "",
+        combo: "S"
+    }
+
+    this.apiServPaciente.getAll(filtroPac).subscribe(r => {
+      this.pacientes = r?.data ?? []
+      console.log(r);
+    });
+  }
+
+  asignarPacienteLogin(){
+    this.disabledPaciente = false;
+    this.controles = false;
+
+    if(this.tipoPerfil === "P"){
+      let pacienteLogin = this.pacientes.filter(r => r.pacienteId === this.userId);
+        this.pacienteSeleccionados.push(pacienteLogin[0]);
+        this.disabledPaciente = true;
+    }
+    else if (this.tipoPerfil === "M"){
+        this.controles = true;
+    }
+  }
+
+  tryInit() {
+    if (this.dataReady && this.viewReady) {
+      this.renderCalendar();
+      this.asignarPacienteLogin();
+    }
+  }
+
+  renderCalendar() {
+    console.log('Datos y vista listos', this.horarios);
+    this.configurarCalendarioDato();
+  }
+
+  async generarHorarios(medicoId: string, especialidadId: string, pacienteId: string){
+  
+    this.apiServices.getAllHorario(medicoId, especialidadId, pacienteId, null).subscribe(response => {
+      this.horariosMedico = response?.data ?? [];
       console.log(this.horariosMedico);
-      this.configurarCalendarioDato();
+       this.dataReady = true;
+      this.tryInit();
     }, err => {
       console.error(err);
     });
   }
 
-  configurarCalendarioDato() {
+  async getParametros(){
+    var filtroEsp: FiltroParam = {
+        input: "",
+        combo: "S",
+        tipo: this.tipoCalendet,
+        codigo: this.render
+    }
+    
+    this.apiServParam.getAll(filtroEsp).subscribe(response => {
+      this.listParam = response?.data ?? [];
+      console.log(this.listParam);
+
+      this.listParam.forEach(x => {
+        this.renderValor = parseInt(x.valor ?? "0");
+      });
+
+    }, err => {
+      console.error(err);
+    });
+  }
+
+   /*configurarCalendarioDato() {
     this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
       initialView: 'dayGridWeek',
@@ -124,71 +307,49 @@ export class CalendarioComponent implements OnInit {
         const fecha = info.event.startStr;
         this.abrirModal(doctorId, fecha);
       },
-
-      eventContent: this.renderDoctorEvent.bind(this),
       dayCellDidMount: (arg) => {
-        const fecha = arg.date.toISOString().substring(0, 10);
-        if (this.feriados.includes(fecha)) {
-          const styleDay = arg.el.classList.value?.split(' ');
-          //styleDay.forEach(r => arg.el.classList.replace(r.trim(), ''));
-          for (let index = 0; index < styleDay.length; index++) {
-            const element = styleDay[index];
-            arg.el.classList.remove(element);
-          }
-          //arg.el.classList.replace(styleDay, 'fc-dia-feriado');
-          arg.el.classList.add('fc-dia-feriado');
-        }
-      }
+        this.bloquearCalender(arg);
+      },
+      eventContent: this.renderDoctorEvent.bind(this)
     };
-  }
-
-  configurarCalendarioInitial() {
-    /*this.calendarOptions = {
-      initialView: 'dayGridMonth',
-      locale: 'es',
-      showNonCurrentDates: false,
-      fixedWeekCount: false,
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: ''
-      },
-      dayCellDidMount: (info) => {
-        if (this.feriados.includes(info.date.toISOString().split('T')[0])) {
-          info.el.classList.add('dia-bloqueado');
-        }
-      },
-      plugins: [
-        dayGridPlugin,
-        timeGridPlugin,
-        interactionPlugin
-      ]
-    };*/
-    /*this.calendarOptions = {
+  } */
+ configurarCalendarioDato() {
+    this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
-      initialView: 'dayGridMonth',
+      initialView: 'dayGridWeek',
       locale: 'es',
-      height: 'auto',
+      height: '500px',
 
       headerToolbar: {
-        left: 'prev,next today',
+        left: 'prev,next',
         center: 'title',
-        right: ''
+        right: '' // user can switch between the two
       },
 
+      allDaySlot: false,
       displayEventTime: false,
-      dayMaxEvents: false,
 
       events: this.generarEventos(),
-
+      dayCellDidMount: (arg) => {
+        this.bloquearCalender(arg);
+      },
+      eventContent: this.renderDoctorEvent.bind(this),
       eventClick: (info) => {
         const doctorId = info.event.extendedProps['doctorId'];
         const fecha = info.event.startStr;
-        this.abrirModal(doctorId, fecha);
-      },
+        const especialidadId = info.event.extendedProps['especialidadId'];
+        const especialidad = info.event.extendedProps['especialidad'];
+        const horario = info.event.extendedProps['horario'];
+        const fechaIni = info.event.extendedProps['fechaInicio'];
+        const fechaFin = info.event.extendedProps['fechaFin'];
+        const nombre = info.event.title;
 
-      eventContent: this.renderDoctorEvent.bind(this)
-    };*/
+        this.abrirModal(doctorId, fecha, especialidadId, especialidad, nombre, horario, fechaIni, fechaFin);
+      }
+    };
+  } 
+
+  configurarCalendarioInitial() {
     this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
       initialView: 'dayGridWeek',
@@ -216,13 +377,96 @@ export class CalendarioComponent implements OnInit {
     let anio = hoy.getFullYear();
     let mes = hoy.getMonth();
 
-    for (let cont = 0; cont <= 2; cont++) {
+    for (let cont = 1; cont <= this.renderValor; cont++) {
 
-      if(cont > 0)
-      {
         anio = mes === 12 ? anio + 1 : anio;
         mes = mes === 12 ? 1 : mes + 1;
+
+      const diasMes = new Date(anio, mes, 0).getDate();
+
+      console.log("anio: " + anio);
+      console.log("mes: " + mes);
+      console.log("diasMes: " + diasMes);
+
+      for (let d = 1; d <= diasMes; d++) {
+        const fecha = new Date(anio, mes - 1, d);
+        const diaSemana = fecha.getDay()+"";
+
+        console.log("fecha: " + fecha);
+        console.log("diaSemana: " + diaSemana);
+        const fechaStr = this.fechaLocal(fecha);
+
+        this.horarioCalender = this.horariosMedico.filter(doc =>
+          this.fechaLocal(doc.fechaInicioLaboral) === fechaStr
+        );
+
+        console.log(this.horarioCalender);
+        if (this.horarioCalender.length > 0) {
+          this.horarioDia = this.horarioCalender.filter(doc =>
+            doc.diasAtencion.includes(diaSemana)
+          );
+
+          console.log(this.horarioDia);
+          if (this.horarioDia.length > 0) {
+            console.log("push");
+            for (const doc of this.horarioDia)
+            {
+              let citasTotal: number = 0;
+              let feriado: Boolean = false;
+                if(doc.citas != undefined){
+                  const citasDia = doc.citas.filter(c =>
+                    c.medicoId === doc.medicoId &&
+                    this.fechaLocal(c.fechaCita) === fechaStr
+                  );
+
+                  citasTotal = citasDia.length;
+                }
+
+                if (this.feriados.includes(fechaStr)) {
+                  feriado = true;
+                }
+
+                eventos.push({
+                  title: doc.nombre,
+                  start: fecha,
+                  allDay: true,
+                  extendedProps: {
+                    doctorId: doc.medicoId,
+                    especialidad: doc.especialidad,
+                    especialidadId: doc.especialidadId,
+                    foto: doc.foto,
+                    horario: doc.horarioTexto,
+                    totalCitas: citasTotal,
+                    fechaCalendario: fecha,
+                    fechaInicio: doc.fechaInicioLaboral,
+                    fechaFin: doc.fechaFinalLaboral,
+                    diaSemana: diaSemana,
+                    feriado: feriado
+                  }
+                });
+
+                if(feriado)
+                {
+                  break;
+                }
+            }
+          }
+        }
       }
+    }
+    return eventos;
+  }
+
+  /*generarEventos(): any[] {
+    const eventos: any[] = [];
+    const hoy = new Date();
+    let anio = hoy.getFullYear();
+    let mes = hoy.getMonth();
+
+    for (let cont = 1; cont <= this.renderValor; cont++) {
+
+        anio = mes === 12 ? anio + 1 : anio;
+        mes = mes === 12 ? 1 : mes + 1;
 
       const diasMes = new Date(anio, mes, 0).getDate();
 
@@ -257,13 +501,16 @@ export class CalendarioComponent implements OnInit {
                   foto: doc.foto,
                   horario: doc.horarioTexto,
                   totalCitas: citasDia.length,
-                  fechaCalendario: fecha
+                  fechaCalendario: fecha,
+                  diaSemana: diaSemana,
+                  horarioLaboral: doc.horarioLaboral
                 }
               });
             }
           }
         });
-        /*this.doctores.forEach(doc => {
+        //este no va
+        this.doctores.forEach(doc => {
           if (doc.diasAtencion.includes(diaSemana)) {
             const citasDia = this.citas.filter(c =>
               c.doctorId === doc.id &&
@@ -283,11 +530,11 @@ export class CalendarioComponent implements OnInit {
               }
             });
           }
-        });*/
+        });
       }
     }
     return eventos;
-  }
+  }*/
 
  /* eventosPorDia() {
   const eventos: any[] = [];
@@ -316,7 +563,7 @@ export class CalendarioComponent implements OnInit {
   return eventos;
 }*/
 
-  renderDoctorEvent(arg: any) {
+  /*renderDoctorEvent(arg: any) {
     const { foto, especialidad, horario, totalCitas, fechaCalendario } = arg.event.extendedProps;
 
     return {
@@ -332,18 +579,141 @@ export class CalendarioComponent implements OnInit {
         </div>
       `
     };
+  }*/
+ renderDoctorEvent(arg: any) {
+    const { foto, especialidad, horario, totalCitas, fechaCalendario, feriado, doctorId, especialidadId } = arg.event.extendedProps;
+
+    if(feriado)
+    {
+      this.bloquearSemanaVisible();
+      return {
+        html: `
+          <div class="doctor-card">
+            <!-- Línea 2 -->
+            <div class="linea-2">DIA NO LABORABLE</div>
+          </div>
+        `
+      };
+    }
+    else{
+      //
+      var argInfo: InfoModal = {
+          descEspecialidad: especialidad,
+          nombres: arg.event.title,
+          horario: horario,
+          medicoId: doctorId,
+          especialidadId: especialidadId
+      }
+
+      return {
+        html: `
+          <div class="doctor-card">
+          <!-- Línea 1 -->
+          <div class="linea-1">
+            <img src="${foto}" class="doctor-img">
+            <div class="doctor-info">
+              <strong>${arg.event.title}</strong>
+              <small>${especialidad}</small>
+            </div>
+          </div>
+
+          <!-- Línea 2 -->
+          <div class="linea-2">
+            ${horario}
+          </div>
+
+          <!-- Línea 3 -->
+          <div class="linea-3">
+            <span class="badge">${totalCitas} citas</span>
+            <button class="btn btn-primary btn-round btn-icon-add add-cita"><i class="nc-icon nc-simple-add"></i></button>
+          </div>
+        </div>
+        `
+      };
+    }
   }
 
-  abrirModal(doctorId: number, fecha: string) {
-    /*const citasDia = this.citas.filter(c =>
-      c.doctorId === doctorId &&
-      c.fecha === fecha.substring(0, 10)
-    );
+  bloquearCalender(arg: any)
+  {
+    const fecha = arg.date.toISOString().substring(0, 10);
+    if (this.feriados.includes(fecha)) {
+      //const styleDay = arg.el.classList.value?.split(' ');
+      //styleDay.forEach(r => arg.el.classList.replace(r.trim(), ''));
+      //for (let index = 0; index < styleDay.length; index++) {
+        //const element = styleDay[index];
+        //arg.el.classList.remove(element);
+      //}
+      //arg.el.classList.replace(styleDay, 'fc-dia-feriado');
+      arg.el.classList.add('fc-dia-feriado');
+    }
+  }
 
-    this.dialog.open(ModalCitasComponent, {
-      width: '450px',
-      data: { citas: citasDia }
-    });*/
+  bloquearSemanaVisible() {
+    const celdas = document.querySelectorAll('.fc-daygrid-day');
+
+    celdas.forEach((celda: any) => {
+      const fecha = celda.getAttribute('data-date');
+      if (!fecha) return;
+
+      if (this.feriados.includes(fecha)) {
+        celda.classList.add('fc-dia-feriado');
+      } else {
+        celda.classList.remove('fc-dia-feriado');
+      }
+    });
+  }
+
+  mostrarHorarioCita(){
+    console.log("listo");
+    /*this.dataInfoCitasHorario = infoMedico;
+
+    this.modalService.open(this.modalEstadoCampana, {
+        windowClass : "myCustomModalClassSupervisores",
+        centered: true,
+        backdrop: 'static',
+        beforeDismiss: () => {
+            
+            return true;
+    }
+    });
+*/
+     // this.spinner.hide();
+  }
+
+  abrirModal(doctorId: number, fecha: string, especialidadId: number, especialidad: string, nombres: string, horario: string, fechaInicio: string, fechaFin: string) {
+    console.log("abrirModal");
+    console.log(doctorId);
+    console.log(fecha);
+
+    var infoMedico: InfoModal = {
+        descEspecialidad: especialidad,
+        especialidadId: especialidadId,
+        medicoId: doctorId,
+        nombres: nombres,
+        horario: horario,
+        fechaDia: fecha,
+        pacienteId: this.pacienteSeleccionados[0].pacienteId
+    }
+
+    this.dataInfoCitasHorario = infoMedico;
+
+    // 🔹 Quita foco del elemento que estaba activo
+    const active = document.activeElement as HTMLElement;
+    if (active) {
+      active.blur();
+    }
+    
+    this.modalService.open(this.modalAsignarCita, {
+        windowClass : "myCustomModalClassSupervisores",
+        centered: true,
+        backdrop: 'static',
+        keyboard: false,
+        container: 'body',
+        beforeDismiss: () => {
+                this.cargaPostModal();
+                return true;
+        }
+    });
   }
 
   private fechaLocal(date: Date | string): string {
@@ -358,4 +728,111 @@ export class CalendarioComponent implements OnInit {
     return `${y}-${m}-${day}`;
   }
 
+  generarListFeriados(feriados: any[]): string[] {
+    if (!feriados || feriados.length === 0) {
+      return [];
+    }
+
+    return feriados.map(f => {
+      const anio = f.anio.toString().padStart(4, '0');
+      const mes = f.mes.toString().padStart(2, '0');
+      const dia = f.dia.toString().padStart(2, '0');
+      return `${anio}-${mes}-${dia}`;
+    });
+  }
+
+  showNotification(color: number, from, align, mensaje: string) {
+
+    switch (color) {
+      case 1:
+        this.toastr.info(
+        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
+          "",
+          {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: "alert alert-info alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      case 2:
+        this.toastr.success(
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
+          "",
+          {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: "alert alert-success alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      case 3:
+        this.toastr.warning(
+        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
+          "",
+          {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: "alert alert-warning alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      case 4:
+        this.toastr.error(
+        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
+          "",
+          {
+            timeOut: 4000,
+            enableHtml: true,
+            closeButton: true,
+            toastClass: "alert alert-danger alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      case 5:
+        this.toastr.show(
+        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
+          "",
+          {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: "alert alert-primary alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      default:
+        break;
+    }
+
+}
+
+  validaUserLogin(){
+    const token = localStorage.getItem('token');
+    const usuario = localStorage.getItem('loginUsuario');
+    const userId = localStorage.getItem('loginId');
+    const perfilId = localStorage.getItem('loginPerfilId');
+    const perfil = localStorage.getItem('loginPerfil');
+    const time = localStorage.getItem('time');
+
+    if(usuario && perfil && userId){
+        this.tipoPerfil = perfil;
+        this.userId = parseInt(userId);
+    }
+    else{
+      console.log("sin datos");
+    }
+  }
+
+  closeBtnClick(){
+    this.modalService.dismissAll();
+  }
 }

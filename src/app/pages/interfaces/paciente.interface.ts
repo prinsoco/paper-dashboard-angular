@@ -15,6 +15,7 @@ export class Paciente {
     usuarioCreacion?: string;
     usuarioModificacion?: string;
     clave?: string;
+    pacienteInfo?: string
 }
 
 export interface IResponseDataPaciente<T> {
@@ -26,6 +27,11 @@ export interface IResponseDataPaciente<T> {
 
 export class Filtro{
     input?: string;
+}
+
+export class FiltroPaciente{
+    input?: string;
+    combo?: string;
 }
 
 export class Response{

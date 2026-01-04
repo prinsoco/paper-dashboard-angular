@@ -15,6 +15,7 @@ export class NavbarComponent implements OnInit{
     private nativeElement: Node;
     private toggleButton;
     private sidebarVisible: boolean;
+    userName?: string;
 
     public isCollapsed = true;
     @ViewChild("navbar-cmp", {static: false}) button;
@@ -26,6 +27,7 @@ export class NavbarComponent implements OnInit{
     }
 
     ngOnInit(){
+        this.validaUserLogin();
         this.listTitles = ROUTES.filter(listTitle => listTitle);
         var navbar : HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
@@ -91,5 +93,58 @@ export class NavbarComponent implements OnInit{
         }
 
       }
+
+      validaUserLogin(){
+        const usuario = localStorage.getItem('loginUsuario');
+        const perfil = localStorage.getItem('loginPerfil');
+        const time = localStorage.getItem('time');
+
+        if(usuario && perfil){
+            this.userName = usuario;
+            console.log("Time: " + time);
+            this.validarSesionLogin(time, perfil);
+        }
+        else{
+          this.router.navigate(["/user/login"]);
+        }
+      }
+
+      validarSesionLogin(date?: string, perfil?: string): void {
+        if (date){
+          const fecha = this.parseCustomDate(date);
+          if (fecha < new Date()) {
+            localStorage.clear();
+            console.log("Time convertido: " + fecha);
+            console.log("Fecha del sistema: " + new Date());
+            if(perfil && perfil === "P"){
+                this.router.navigate(["/user/login"]);
+            }
+            else{
+              this.router.navigate(["/admin/login"]);
+            }
+          }
+        }
+      }
+
+      cerrarSesion(){
+        const usuario = localStorage.getItem('loginUsuario');
+        const perfil = localStorage.getItem('loginPerfil');
+        localStorage.clear();
+        if(perfil && perfil === "P"){
+                this.router.navigate(["/user/login"]);
+            }
+            else{
+              this.router.navigate(["/admin/login"]);
+            }
+        
+      }
+
+      parseCustomDate(dateStr: string): Date | null {
+        const [datePart, timePart] = dateStr.split(' ');
+        const [day, month, year] = datePart.split('/').map(Number);
+        const [hour, minute, second] = timePart.split(':').map(Number);
+        return new Date(year, month - 1, day, hour, minute, second);
+      }
+
 
 }

@@ -16,6 +16,7 @@ export class Medico {
     estado: boolean;
     usuarioCreacion?: string;
     usuarioModificacion?: string;
+    horario?: string;
 }
 
 export interface IResponseDataMedico<T> {
@@ -27,6 +28,13 @@ export interface IResponseDataMedico<T> {
 
 export class Filtro{
     input?: string;
+}
+
+export class FiltroMedico{
+    input?: string;
+    identificacion?: string;
+    combo?: string;
+    especialidadId?: number;
 }
 
 export class Response{

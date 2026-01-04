@@ -50,6 +50,8 @@ export class FormMedicoComponent implements OnInit {
     emailPatterns = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
     emailPatterns1 = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     ValidacionEmail: string;
+    tipoPerfil?: string;
+    userId?: number;
 
     constructor(
         private fb: FormBuilder,
@@ -64,6 +66,7 @@ export class FormMedicoComponent implements OnInit {
 
     ngOnInit() {
        console.log("Formulario");
+       this.validaUserLogin();
         this.validateForms();
         this.getAllPerfiles();
         this.getAllEspecialidades();
@@ -349,5 +352,22 @@ export class FormMedicoComponent implements OnInit {
     emailonBlur(event: FocusEvent){
       this.email.onBlur(event);
 
+    }
+
+    validaUserLogin(){
+      const token = localStorage.getItem('token');
+      const usuario = localStorage.getItem('loginUsuario');
+      const userId = localStorage.getItem('loginId');
+      const perfilId = localStorage.getItem('loginPerfilId');
+      const perfil = localStorage.getItem('loginPerfil');
+      const time = localStorage.getItem('time');
+
+      if(usuario && perfil && userId){
+          this.tipoPerfil = perfil;
+          this.userId = parseInt(userId);
+      }
+      else{
+        console.log("sin datos");
+      }
     }
 }

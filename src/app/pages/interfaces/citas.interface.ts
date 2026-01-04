@@ -5,6 +5,18 @@ export interface Citas {
   paciente: string;
 }
 
+export interface Cita {
+  citaId?: number;
+  medicoId?: number;
+  fechaCita?: Date; // yyyy-MM-dd
+  pacienteId?: number;
+  estado?: boolean;
+  motivo?: string;
+  usuarioCreacion?: string;
+  usuarioModificacion?: string;
+  estadoCita?: string;
+}
+
 export interface IResponseDataCita<T> {
     code:number;
     info:string;
@@ -38,6 +50,7 @@ export class HorariosMedico
     fechaFinalLaboral?: Date;
     diasAtencion?: string[] = [];
     horarioLaboral?: HorasLaborales[] = [];
+    citas?: CitasMedico[] = [];
 }
 
 export class HorasLaborales
@@ -45,7 +58,41 @@ export class HorasLaborales
     idRango?: number;
     medicoId?: number;
     nombre?: string;
-    hora?: string;
+    hora?: Date;
     fechaInicio?: Date;
     fechaFin?: Date;
+}
+
+export class Feriados
+{
+    feriadoId?: number;
+    anio?: number;
+    mes?: number;
+    dia?: number;
+    foto?: string;
+    descripcion?: string;
+    fechaCreacion?: Date;
+    usuarioCreacion?: string;
+}
+
+export class CitasMedico
+{
+    citaId?: number;
+    medicoId?: number;
+    pacienteId?: number;
+    fechaCita?: Date;
+    motivo?: string;
+    estadoCita?: string;
+    descEstadoCita?: string;
+}
+
+export class InfoModal
+{
+    medicoId?: number;
+    nombres?: string;
+    descEspecialidad?: string;
+    horario?: string;
+    especialidadId?: number;
+    pacienteId?: number;
+    fechaDia?: string;
 }
