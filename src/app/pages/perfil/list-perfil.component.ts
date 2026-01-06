@@ -7,7 +7,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 
-import { Filtro, Perfil } from '../interfaces/rolxperfil.interface';
+import { Filtro, FiltroPerfil, Perfil } from '../interfaces/rolxperfil.interface';
 import { PerfilServices } from '../services/perfil.service';
 
 @Component({
@@ -63,8 +63,9 @@ export class PerfilesComponent implements OnInit{
             this.filterArray = [];
             this.arrayData = [];
 
-            var filtro: Filtro = {
-                input: ""
+            var filtro: FiltroPerfil = {
+                input: "",
+                combo: "N"
             }
             var resp = await this.apiService.getAll(filtro).toPromise();
             this.arrayData = resp?.data ?? [];

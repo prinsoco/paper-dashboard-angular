@@ -22,24 +22,11 @@ import { Medico, IResponseDataMedico, Filtro, FiltroMedico } from "../interfaces
 
     public getAll(filtroMed: FiltroMedico) {
         let headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token)
-        .set('input', filtroMed?.input ?? "");
+        .set('input', filtroMed?.input ?? "")
+        .set('especialidadId', filtroMed?.especialidadId ?? "")
+        .set('combo', filtroMed?.combo ?? "")
+        .set('identificacion', filtroMed?.identificacion ?? "");
 
-        if(filtroMed?.especialidadId != undefined)
-        {
-            headers.set('especialidadId', filtroMed?.especialidadId+"");
-        }
-
-        if(filtroMed?.combo != undefined)
-        {
-            headers.set('combo', filtroMed?.combo ?? "");
-        }
-
-        if(filtroMed?.identificacion != undefined)
-        {
-            headers.set('identificacion', filtroMed?.identificacion ?? "")
-        }
-        
-        ;
         let url_ = `${this.prefix}getAll` ;
 
         return this.http.get<IResponseDataMedico<Medico[]>>(url_, {headers: headers});

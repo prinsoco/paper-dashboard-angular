@@ -107,7 +107,7 @@ hora
             .then(rdata => {
                 //this.spinner.hide();
                 const id = rdata["id"];
-                if(id === -9999 || id === -1111 || id === 0)
+                if(id === -9999 || id === -1111 || id === 0 || id === -2222)
                 {
                   this.showNotificationLabel(3, "top","right", rdata["message"]);
                 }

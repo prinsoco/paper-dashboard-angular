@@ -57,7 +57,7 @@ export class CalendarioComponent implements OnInit {
   closeDropdownSelection = false;
   listParam: Parametros[] = [];
   dataInfoCitasHorario: InfoModal;
-  controles: boolean = false;
+  controles: boolean;
   disabledPaciente?: boolean;
   tipoPerfil?: string;
   userId?: number;
@@ -73,8 +73,7 @@ export class CalendarioComponent implements OnInit {
     private toastr: ToastrService,
     private modalService: NgbModal
   ) {
-    this.disabledPaciente = false;
-    this.controles = false;
+
   }
 
   ngOnInit(): void {
@@ -94,13 +93,13 @@ export class CalendarioComponent implements OnInit {
     this.cargarInfoFiltros();
     this.pacienteSeleccionados = [];
     this.cargarPacientes();
-    this.cargarDatos("0","0","0", true);
+    this.cargarDatos(this.tipoPerfil === "M" ? this.userId+"" : "0","0","0", true);
     this.configurarCalendarioInitial();
   }
 
   cargaPostModal(){
     this.cargarInfoFiltros();
-    this.cargarDatos("0","0","0", true);
+    this.cargarDatos(this.tipoPerfil === "M" ? this.userId+"" : "0","0","0", true);
     this.configurarCalendarioInitial();
     this.cargarSettingsDropwdown();
     this.pacienteSeleccionados = [];
@@ -127,6 +126,7 @@ export class CalendarioComponent implements OnInit {
     this.filtrarTableForm.controls["paciente"].setValue('0');
     this.filtrarTableForm.controls["pacienteInfo"].setValue('');
     this.pacienteSeleccionados = [];
+    this.medicos = [];
     this.cargaInicial();
   }
 
@@ -153,7 +153,7 @@ export class CalendarioComponent implements OnInit {
       forkJoin({
         listEspecialidad: this.apiServEsp.getAll(filtroEsp),
         feriado: this.apiServices.getAllFeriados(this.anios),
-        horarioMedico: this.apiServices.getAllHorario("0", "0", "0", null)
+        horarioMedico: this.apiServices.getAllHorario(medicoId === "0" ? "0" : medicoId, "0", "0", null)
       }).subscribe(({ listEspecialidad,feriado, horarioMedico }) => {
         this.feriados = this.generarListFeriados(feriado.data);
         this.horariosMedico = horarioMedico?.data;
@@ -180,7 +180,7 @@ export class CalendarioComponent implements OnInit {
       pacienteId = x.pacienteId?.toString()
     });
 
-    this.cargarDatos(medicoId, especialidadId, pacienteId, false);
+    this.cargarDatos(this.tipoPerfil === "M" ? this.userId+"" : medicoId, especialidadId, pacienteId, false);
   }
 
   onItemSelectEspecialidad(item: any) {
@@ -189,6 +189,11 @@ export class CalendarioComponent implements OnInit {
     {
       const value = (item.target as HTMLSelectElement).value;
       console.log('Especialidad seleccionada:', value);
+      if(value === "0"){
+        this.medicos = [];
+        return;
+      }
+
       this.cargarMedicos(value);
     }
   }
@@ -199,7 +204,7 @@ export class CalendarioComponent implements OnInit {
       var filtroMed: FiltroMedico = {
           input: "",
           combo: "S",
-          especialidadId: parseInt(especialidadId)
+          especialidadId: especialidadId === "-1" ? null : especialidadId
       }
 
       this.apiServMed.getAll(filtroMed).subscribe(r => {
@@ -227,7 +232,8 @@ export class CalendarioComponent implements OnInit {
 
   asignarPacienteLogin(){
     this.disabledPaciente = false;
-    this.controles = false;
+    this.filtrarTableForm.get('especialidad')?.enable();
+    this.filtrarTableForm.get('medico')?.enable();
 
     if(this.tipoPerfil === "P"){
       let pacienteLogin = this.pacientes.filter(r => r.pacienteId === this.userId);
@@ -235,7 +241,8 @@ export class CalendarioComponent implements OnInit {
         this.disabledPaciente = true;
     }
     else if (this.tipoPerfil === "M"){
-        this.controles = true;
+        this.filtrarTableForm.get('especialidad')?.disable();
+        this.filtrarTableForm.get('medico')?.disable();
     }
   }
 

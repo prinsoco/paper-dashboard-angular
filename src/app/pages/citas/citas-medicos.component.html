@@ -7,8 +7,9 @@
             <div class="col-md-3 pr-1">
               <div class="form-group">
                 <label>Especialidad</label>
-                <select class="form-control form-control-select" formControlName="especialidad" (change)="onItemSelectEspecialidad($event)" disabled="controles">
+                <select class="form-control form-control-select" formControlName="especialidad" (change)="onItemSelectEspecialidad($event)">
                   <option value="0">-- Seleccione --</option>
+                  <option value="-1">-- Todas --</option>
                   <option *ngFor="let item of especialidades" [value]="item.especialidadId">
                     {{ item.descripcion }}
                   </option>
@@ -18,7 +19,7 @@
             <div class="col-md-3 pl-1">
               <div class="form-group">
                 <label>Médicos</label>
-                <select class="form-control form-control-select" formControlName="medico" disabled="controles">
+                <select class="form-control form-control-select" formControlName="medico">
                   <option value="0">-- Seleccione --</option>
                   <option *ngFor="let item of medicos" [value]="item.medicoId">
                     {{ item.nombres + ' ' + item.apellidos }}

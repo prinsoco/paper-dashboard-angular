@@ -7,7 +7,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 
-import { Filtro, Especialidad } from '../interfaces/especialidad.interface';
+import { Filtro, Especialidad, FiltroEspecialidad } from '../interfaces/especialidad.interface';
 import { EspecialidadServices } from '../services/especialidad.service';
 
 @Component({
@@ -65,8 +65,9 @@ export class EspecialidadesComponent implements OnInit{
             this.filterArray = [];
             this.arrayData = [];
 
-            var filtro: Filtro = {
-                input: ""
+            var filtro: FiltroEspecialidad = {
+                input: "",
+                combo: "N"
             }
             var resp = await this.apiService.getAll(filtro).toPromise();
             this.arrayData = resp?.data ?? [];

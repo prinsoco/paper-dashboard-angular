@@ -86,7 +86,8 @@ export class PacientesComponent implements OnInit{
             this.arrayData = [];
 
             var filtro: FiltroPaciente = {
-                input: ""
+                input: "",
+                combo: "N"
             }
             var resp = await this.apiService.getAll(filtro).toPromise();
             this.arrayData = resp?.data ?? [];

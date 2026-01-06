@@ -34,7 +34,7 @@ export class FiltroMedico{
     input?: string;
     identificacion?: string;
     combo?: string;
-    especialidadId?: number;
+    especialidadId?: string;
 }
 
 export class Response{
