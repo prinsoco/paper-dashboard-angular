@@ -93,13 +93,13 @@ export class CalendarioComponent implements OnInit {
     this.cargarInfoFiltros();
     this.pacienteSeleccionados = [];
     this.cargarPacientes();
-    this.cargarDatos(this.tipoPerfil === "M" ? this.userId+"" : "0","0","0", true);
+    this.cargarDatos(this.tipoPerfil === "M" ? this.userId+"" : "0","0", this.tipoPerfil === "P" ? this.userId+"" : "0", true);
     this.configurarCalendarioInitial();
   }
 
   cargaPostModal(){
     this.cargarInfoFiltros();
-    this.cargarDatos(this.tipoPerfil === "M" ? this.userId+"" : "0","0","0", true);
+    this.cargarDatos(this.tipoPerfil === "M" ? this.userId+"" : "0","0", this.tipoPerfil === "P" ? this.userId+"" : "0", true);
     this.configurarCalendarioInitial();
     this.cargarSettingsDropwdown();
     this.pacienteSeleccionados = [];
@@ -153,7 +153,7 @@ export class CalendarioComponent implements OnInit {
       forkJoin({
         listEspecialidad: this.apiServEsp.getAll(filtroEsp),
         feriado: this.apiServices.getAllFeriados(this.anios),
-        horarioMedico: this.apiServices.getAllHorario(medicoId === "0" ? "0" : medicoId, "0", "0", null)
+        horarioMedico: this.apiServices.getAllHorario(medicoId === "0" ? "0" : medicoId, "0", pacienteId === "0" ? "0" : pacienteId, null)
       }).subscribe(({ listEspecialidad,feriado, horarioMedico }) => {
         this.feriados = this.generarListFeriados(feriado.data);
         this.horariosMedico = horarioMedico?.data;
@@ -180,7 +180,7 @@ export class CalendarioComponent implements OnInit {
       pacienteId = x.pacienteId?.toString()
     });
 
-    this.cargarDatos(this.tipoPerfil === "M" ? this.userId+"" : medicoId, especialidadId, pacienteId, false);
+    this.cargarDatos(this.tipoPerfil === "M" ? this.userId+"" : medicoId, especialidadId, this.tipoPerfil === "P" ? this.userId+"" : pacienteId, false);
   }
 
   onItemSelectEspecialidad(item: any) {
