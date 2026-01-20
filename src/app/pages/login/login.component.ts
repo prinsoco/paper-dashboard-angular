@@ -119,7 +119,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem("time", infoLogin.time);
           localStorage.setItem("lastLogin", infoLogin.lastLogin);
 
-          this.router.navigate(["/citas"]);
+          this.router.navigate(["/agendamiento"]);
         }
       })
       .catch((err) => {

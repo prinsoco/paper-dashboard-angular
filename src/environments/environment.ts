@@ -19,6 +19,7 @@ export const environment = {
     notificacionService: 'http://localhost:5005/api/Notificacion/',
     horarioServices: 'http://localhost:5005/api/Horarios/',
     citasServices: 'http://localhost:5005/api/Cita/',
+    historialServices: 'http://localhost:5005/api/HistorialClinico/',
     authServices: 'http://localhost:5005/api'
   }
 };

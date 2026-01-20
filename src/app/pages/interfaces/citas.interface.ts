@@ -15,6 +15,10 @@ export interface Cita {
   usuarioCreacion?: string;
   usuarioModificacion?: string;
   estadoCita?: string;
+  medico?: string;
+  paciente?: string;
+  especialidad?: string;
+  descEstadoCita?: string;
 }
 
 export interface IResponseDataCita<T> {
@@ -26,6 +30,17 @@ export interface IResponseDataCita<T> {
 
 export class Filtro{
     input?: string;
+}
+
+export class FiltroCitaAsig{
+    input?: string;
+    fechaInicio?: string;
+    fechaFin?: string;
+    combo?: string;
+    medicoId?: number;
+    paciente?: number;
+    estadoCita?: string;
+    especialidadId?: number;
 }
 
 export class Horarios{

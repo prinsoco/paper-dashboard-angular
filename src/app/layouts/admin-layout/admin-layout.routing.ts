@@ -16,6 +16,7 @@ import { MedicosComponent } from '../../pages/medicos/list-medico.component';
 import { ParametrosComponent } from '../../pages/configuracion/list-parametros.component';
 import { NotificacionesComponent } from '../../pages/notificaciones/list-notificaciones.component';
 import { CalendarioComponent } from '../../pages/citas/citas-medicos.component';
+import { CitasAsignadasComponent } from '../../pages/citas/consulta/citas-asignadas.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -33,5 +34,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'medicos',          component: MedicosComponent },
     { path: 'parametros',          component: ParametrosComponent },
     { path: 'notificaciones',          component: NotificacionesComponent },
-    { path: 'citas',          component: CalendarioComponent }
+    { path: 'agendamiento',          component: CalendarioComponent },
+    { path: 'citas',          component: CitasAsignadasComponent }
 ];

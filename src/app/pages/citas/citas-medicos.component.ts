@@ -21,6 +21,7 @@ import { PacienteServices } from '../services/paciente.service';
 import { FiltroPaciente, Paciente } from '../interfaces/paciente.interface';
 import { ParametroServices } from '../services/parametros.service';
 import { FiltroParam, Parametros } from '../interfaces/parametros.interface';
+import { UtilsGeneral } from '../../shared/utils/utils-general';
 
 @Component({
   selector: 'app-calendario',
@@ -61,6 +62,7 @@ export class CalendarioComponent implements OnInit {
   disabledPaciente?: boolean;
   tipoPerfil?: string;
   userId?: number;
+  user?: string;
 
   constructor(private apiServices: CitasServices,
     private apiServEsp: EspecialidadServices,
@@ -71,7 +73,8 @@ export class CalendarioComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private classGeneral: UtilsGeneral
   ) {
 
   }
@@ -155,7 +158,7 @@ export class CalendarioComponent implements OnInit {
         feriado: this.apiServices.getAllFeriados(this.anios),
         horarioMedico: this.apiServices.getAllHorario(medicoId === "0" ? "0" : medicoId, "0", pacienteId === "0" ? "0" : pacienteId, null)
       }).subscribe(({ listEspecialidad,feriado, horarioMedico }) => {
-        this.feriados = this.generarListFeriados(feriado.data);
+        this.feriados = this.classGeneral.generarListFeriados(feriado.data);
         this.horariosMedico = horarioMedico?.data;
         this.especialidades = listEspecialidad?.data ?? [];
         this.dataReady = true;
@@ -212,7 +215,8 @@ export class CalendarioComponent implements OnInit {
         console.log(r);
         if(this.medicos.length == 0)
         {
-          this.showNotification(3, "top","right", "No existen médicos para la especialidad seleccionada.");
+          this.classGeneral.showNotification(3, "top","right", "No existen médicos para la especialidad seleccionada.");
+          //this.showNotification(3, "top","right", "No existen médicos para la especialidad seleccionada.");
         }
       });
     }
@@ -374,10 +378,6 @@ export class CalendarioComponent implements OnInit {
     };
   }
 
-  colorCalender(): string{
-      return "#FFFFFF"
-  }
-
   generarEventos(): any[] {
     const eventos: any[] = [];
     const hoy = new Date();
@@ -401,10 +401,10 @@ export class CalendarioComponent implements OnInit {
 
         console.log("fecha: " + fecha);
         console.log("diaSemana: " + diaSemana);
-        const fechaStr = this.fechaLocal(fecha);
+        const fechaStr = this.classGeneral.fechaLocal(fecha);
 
         this.horarioCalender = this.horariosMedico.filter(doc =>
-          this.fechaLocal(doc.fechaInicioLaboral) === fechaStr
+          this.classGeneral.fechaLocal(doc.fechaInicioLaboral) === fechaStr
         );
 
         console.log(this.horarioCalender);
@@ -423,7 +423,7 @@ export class CalendarioComponent implements OnInit {
                 if(doc.citas != undefined){
                   const citasDia = doc.citas.filter(c =>
                     c.medicoId === doc.medicoId &&
-                    this.fechaLocal(c.fechaCita) === fechaStr
+                    this.classGeneral.fechaLocal(c.fechaCita) === fechaStr
                   );
 
                   citasTotal = citasDia.length;
@@ -723,123 +723,12 @@ export class CalendarioComponent implements OnInit {
     });
   }
 
-  private fechaLocal(date: Date | string): string {
-    const d = new Date(date);
-    console.log(d);
-    const y = d.getFullYear();
-    console.log(y);
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    console.log(m);
-    const day = String(d.getDate()).padStart(2, '0');
-    console.log(day);
-    return `${y}-${m}-${day}`;
-  }
-
-  generarListFeriados(feriados: any[]): string[] {
-    if (!feriados || feriados.length === 0) {
-      return [];
-    }
-
-    return feriados.map(f => {
-      const anio = f.anio.toString().padStart(4, '0');
-      const mes = f.mes.toString().padStart(2, '0');
-      const dia = f.dia.toString().padStart(2, '0');
-      return `${anio}-${mes}-${dia}`;
-    });
-  }
-
-  showNotification(color: number, from, align, mensaje: string) {
-
-    switch (color) {
-      case 1:
-        this.toastr.info(
-        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
-          "",
-          {
-            timeOut: 4000,
-            closeButton: true,
-            enableHtml: true,
-            toastClass: "alert alert-info alert-with-icon",
-            positionClass: "toast-" + from + "-" + align
-          }
-        );
-        break;
-      case 2:
-        this.toastr.success(
-          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
-          "",
-          {
-            timeOut: 4000,
-            closeButton: true,
-            enableHtml: true,
-            toastClass: "alert alert-success alert-with-icon",
-            positionClass: "toast-" + from + "-" + align
-          }
-        );
-        break;
-      case 3:
-        this.toastr.warning(
-        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
-          "",
-          {
-            timeOut: 4000,
-            closeButton: true,
-            enableHtml: true,
-            toastClass: "alert alert-warning alert-with-icon",
-            positionClass: "toast-" + from + "-" + align
-          }
-        );
-        break;
-      case 4:
-        this.toastr.error(
-        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
-          "",
-          {
-            timeOut: 4000,
-            enableHtml: true,
-            closeButton: true,
-            toastClass: "alert alert-danger alert-with-icon",
-            positionClass: "toast-" + from + "-" + align
-          }
-        );
-        break;
-      case 5:
-        this.toastr.show(
-        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
-          "",
-          {
-            timeOut: 4000,
-            closeButton: true,
-            enableHtml: true,
-            toastClass: "alert alert-primary alert-with-icon",
-            positionClass: "toast-" + from + "-" + align
-          }
-        );
-        break;
-      default:
-        break;
-    }
-
-}
-
   validaUserLogin(){
-    const token = localStorage.getItem('token');
-    const usuario = localStorage.getItem('loginUsuario');
-    const userId = localStorage.getItem('loginId');
-    const perfilId = localStorage.getItem('loginPerfilId');
-    const perfil = localStorage.getItem('loginPerfil');
-    const time = localStorage.getItem('time');
-
-    if(usuario && perfil && userId){
-        this.tipoPerfil = perfil;
-        this.userId = parseInt(userId);
+    const login = this.classGeneral.validaUserLogin();
+    if(login){
+      this.tipoPerfil = login.loginPerfil;
+      this.userId = login.loginId;
+      this.user = login.loginUsuario;
     }
-    else{
-      console.log("sin datos");
-    }
-  }
-
-  closeBtnClick(){
-    this.modalService.dismissAll();
   }
 }

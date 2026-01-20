@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { NotifierService } from 'angular-notifier';
 import Swal from 'sweetalert2';
+import { UtilsGeneral } from '../../shared/utils/utils-general';
 
 @Component({
   selector: 'app-modal-citas',
@@ -27,8 +28,8 @@ export class ModalCitasComponent implements OnInit {
   constructor(private apiServices: CitasServices,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private toastr: ToastrService,
     private notifier: NotifierService,
+    private classGeneral: UtilsGeneral
   ) {}
 hora
   ngOnInit(): void {
@@ -49,24 +50,12 @@ hora
     var response = await this.apiServices.getAllHorario(this.dataInfoCitasHorario.medicoId+"", this.dataInfoCitasHorario.especialidadId+"", "0", this.dataInfoCitasHorario.fechaDia).toPromise();
     this.horariosMedico = response?.data ?? [];
     const resp = this.horariosMedico.filter(r => r.medicoId === this.dataInfoCitasHorario.medicoId && 
-      this.fechaLocal(r.fechaInicioLaboral) === this.dataInfoCitasHorario.fechaDia);
+      this.classGeneral.fechaLocal(r.fechaInicioLaboral) === this.dataInfoCitasHorario.fechaDia);
       
       if(resp.length > 0){
         //this.horarioLaboral = resp[0].horarioLaboral?.filter(r => this.fechaLocal(r.hora) === this.dataInfoCitasHorario.fechaDia) ?? [];
         this.horarioLaboral = resp[0].horarioLaboral?.filter(r => new Date(r.hora) > new Date()) ?? [];
       }
-  }
-
-  private fechaLocal(date: Date | string): string {
-    const d = new Date(date);
-    console.log(d);
-    const y = d.getFullYear();
-    console.log(y);
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    console.log(m);
-    const day = String(d.getDate()).padStart(2, '0');
-    console.log(day);
-    return `${y}-${m}-${day}`;
   }
 
   cargarCitas() {
@@ -83,7 +72,8 @@ hora
   }
 
   cerrar(){
-        this.modalService.dismissAll();
+        this.classGeneral.closeModal(this.modalService);
+        //this.modalService.dismissAll();
   }
 
   async agregarCita(){
@@ -93,7 +83,8 @@ hora
         if(rangoCita != "0"){
           var itemCita = this.horarioLaboral.find(r => r.idRango == parseInt(rangoCita));
           if(new Date() > new Date(itemCita.hora)){
-            this.showNotificationLabel(3, "top","right", "No se puede agendar una cita, hora actual es mayor a la hora seleccionada.");
+            this.classGeneral.showNotification(3, "top","right", "No se puede agendar una cita, hora actual es mayor a la hora seleccionada.");
+            //this.showNotificationLabel(3, "top","right", "No se puede agendar una cita, hora actual es mayor a la hora seleccionada.");
           }
           else{
             var citaNew: Cita = {
@@ -109,109 +100,35 @@ hora
                 const id = rdata["id"];
                 if(id === -9999 || id === -1111 || id === 0 || id === -2222)
                 {
-                  this.showNotificationLabel(3, "top","right", rdata["message"]);
+                  this.classGeneral.showNotification(3, "top","right", rdata["message"]);
+                  //this.showNotificationLabel(3, "top","right", rdata["message"]);
                 }
                 else{
-                    this.showNotificationLabel(2, "top","right", rdata["message"]);
+                    this.classGeneral.showNotification(2, "top","right", rdata["message"]);
+                    //this.showNotificationLabel(2, "top","right", rdata["message"]);
                     this.cerrar();
                 }
                 
                 
             }).catch((err) => {
                 //this.spinner.hide();
-                this.showNotificationLabel(4, "top","right", err["message"]);
+                this.classGeneral.showNotification(4, "top","right", err["message"]);
+                //this.showNotificationLabel(4, "top","right", err["message"]);
             });
           }
         }
         else{
-          this.showNotificationLabel(3, "top","right", "Debe seleccionar un horario, para agendar");
+          this.classGeneral.showNotification(3, "top","right", "Debe seleccionar un horario, para agendar");
+          //this.showNotificationLabel(3, "top","right", "Debe seleccionar un horario, para agendar");
         }
     }
 
-    public showNotification( type: string, message: string ): void {
-      this.notifier.notify( type, message );
-    }
-
-    showNotificationLabel(color: number, from, align, mensaje: string) {
-
-    switch (color) {
-      case 1:
-        this.toastr.info(
-        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
-          "",
-          {
-            timeOut: 4000,
-            closeButton: true,
-            enableHtml: true,
-            toastClass: "alert alert-info alert-with-icon",
-            positionClass: "toast-" + from + "-" + align
-          }
-        );
-        break;
-      case 2:
-        this.toastr.success(
-          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
-          "",
-          {
-            timeOut: 4000,
-            closeButton: true,
-            enableHtml: true,
-            toastClass: "alert alert-success alert-with-icon",
-            positionClass: "toast-" + from + "-" + align
-          }
-        );
-        break;
-      case 3:
-        this.toastr.warning(
-        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
-          "",
-          {
-            timeOut: 4000,
-            closeButton: true,
-            enableHtml: true,
-            toastClass: "alert alert-warning alert-with-icon",
-            positionClass: "toast-" + from + "-" + align
-          }
-        );
-        break;
-      case 4:
-        this.toastr.error(
-        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
-          "",
-          {
-            timeOut: 4000,
-            enableHtml: true,
-            closeButton: true,
-            toastClass: "alert alert-danger alert-with-icon",
-            positionClass: "toast-" + from + "-" + align
-          }
-        );
-        break;
-      case 5:
-        this.toastr.show(
-        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">' + mensaje + '</span>',
-          "",
-          {
-            timeOut: 4000,
-            closeButton: true,
-            enableHtml: true,
-            toastClass: "alert alert-primary alert-with-icon",
-            positionClass: "toast-" + from + "-" + align
-          }
-        );
-        break;
-      default:
-        break;
-    }
-
-}
-
 async validarCita(){
     const resp = this.horariosMedico.filter(r => r.medicoId === this.dataInfoCitasHorario.medicoId && 
-      this.fechaLocal(r.fechaInicioLaboral) === this.dataInfoCitasHorario.fechaDia);
+      this.classGeneral.fechaLocal(r.fechaInicioLaboral) === this.dataInfoCitasHorario.fechaDia);
       
       if(resp.length > 0){
-        this.citasProgramada = resp[0].citas?.filter(r => this.fechaLocal(r.fechaCita) === this.dataInfoCitasHorario.fechaDia
+        this.citasProgramada = resp[0].citas?.filter(r => this.classGeneral.fechaLocal(r.fechaCita) === this.dataInfoCitasHorario.fechaDia
                                                       && r.pacienteId === this.dataInfoCitasHorario.pacienteId) ?? [];
 
         if(this.citasProgramada != null && this.citasProgramada.length > 0){
@@ -264,11 +181,13 @@ async actualizarCita(citaId?: number){
                 
             }).catch((err) => {
                 //this.spinner.hide();
-                this.showNotificationLabel(4, "top","right", err["message"]);
+                this.classGeneral.showNotification(4, "top","right", err["message"]);
+                //this.showNotificationLabel(4, "top","right", err["message"]);
             });
         }
         else{
-          this.showNotificationLabel(3, "top","right", "Debe seleccionar un horario, para agendar");
+          this.classGeneral.showNotification(3, "top","right", "Debe seleccionar un horario, para agendar");
+          //this.showNotificationLabel(3, "top","right", "Debe seleccionar un horario, para agendar");
         }
     }
 }

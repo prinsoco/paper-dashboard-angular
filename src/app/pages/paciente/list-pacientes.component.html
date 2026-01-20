@@ -49,37 +49,9 @@
                                  <td>{{ dto.descPerfil }} </td>
                                  <td>{{ dto.estado ? 'Activo' : 'Inactivo' }}</td>
                                  <td class="text-right">
-                                 <!--<button class="btn btn-info btn-icon btn-sm " rel="tooltip" type="button" data-original-title="" title="Historial"><i class="fa fa-user"></i></button>-->
                                  <button class="btn btn-success btn-icon btn-sm " rel="tooltip" type="button" data-original-title="" title="Editar" (click)="showForm(dto, 'edit')"><i class="fa fa-edit"></i></button>
-                                 <!--<button class="btn btn-danger btn-icon btn-sm " rel="tooltip" type="button" data-original-title="" title="Eliminar"><i class="fa fa-times"></i></button>-->
                               </td>
                            </tr>
-                           <!--<tr role="row" class="odd">
-                              <td class="sorting_1">Airi Satou</td>
-                              <td>Andrew Mike</td>
-                              <td>Develop</td>
-                              <td>Develop</td>
-                              <td>2013</td>
-                              <td>99,225</td>
-                              <td class="text-right">
-                                 <button class="btn btn-info btn-icon btn-sm " rel="tooltip" type="button" data-original-title="" title="Historial"><i class="fa fa-user"></i></button>
-                                 <button class="btn btn-success btn-icon btn-sm " rel="tooltip" type="button" data-original-title="" title="Editar"><i class="fa fa-edit"></i></button>
-                                 <button class="btn btn-danger btn-icon btn-sm " rel="tooltip" type="button" data-original-title="" title="Eliminar"><i class="fa fa-times"></i></button>
-                              </td>
-                           </tr>
-                           <tr role="row" class="even">
-                              <td class="sorting_1">Angelica Ramos</td>
-                              <td>John Doe</td>
-                              <td>Design</td>
-                              <td>Design</td>
-                              <td>2012</td>
-                              <td>89,241</td>
-                              <td class="text-right">
-                                 <button class="btn btn-info btn-icon btn-sm " rel="tooltip" type="button" data-original-title="" title="Historial"><i class="fa fa-user"></i></button>
-                                 <button class="btn btn-success btn-icon btn-sm " rel="tooltip" type="button" data-original-title="" title="Editar"><i class="fa fa-edit"></i></button>
-                                 <button class="btn btn-danger btn-icon btn-sm " rel="tooltip" type="button" data-original-title="" title="Eliminar"><i class="fa fa-times"></i></button>
-                              </td>
-                           </tr>-->
                         </tbody>
                      </table>
                   </div>
@@ -91,16 +63,6 @@
                   <div class="col-sm-12 col-md-7">
                      <div class="dataTables_paginate paging_full_numbers" id="datatable_paginate" *ngIf="filterArray">
                         <ngb-pagination [(page)]="page" [maxSize]="8" [pageSize]="pageSize" [collectionSize]="filterArray.length"></ngb-pagination>
-                        <!--<ul class="pagination">
-                           <li class="paginate_button page-item first disabled" id="datatable_first"><a href="#" aria-controls="datatable" data-dt-idx="0" tabindex="0" class="page-link">First</a></li>
-                           <li class="paginate_button page-item previous disabled" id="datatable_previous"><a href="#" aria-controls="datatable" data-dt-idx="1" tabindex="0" class="page-link">Previous</a></li>
-                           <li class="paginate_button page-item active"><a href="#" aria-controls="datatable" data-dt-idx="2" tabindex="0" class="page-link">1</a></li>
-                           <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="3" tabindex="0" class="page-link">2</a></li>
-                           <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="4" tabindex="0" class="page-link">3</a></li>
-                           <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="5" tabindex="0" class="page-link">4</a></li>
-                           <li class="paginate_button page-item next" id="datatable_next"><a href="#" aria-controls="datatable" data-dt-idx="6" tabindex="0" class="page-link">Next</a></li>
-                           <li class="paginate_button page-item last" id="datatable_last"><a href="#" aria-controls="datatable" data-dt-idx="7" tabindex="0" class="page-link">Last</a></li>
-                        </ul>-->
                      </div>
                   </div>
                </div>

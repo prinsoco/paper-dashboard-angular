@@ -20,6 +20,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NotifierService } from 'angular-notifier';
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { AngularEditorModule } from '@grantmk/angular-editor';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     NgSelectModule,
     NgMultiSelectDropDownModule.forRoot(),
     NgbModule,
-    NgbTooltipModule
+    NgbTooltipModule,
+    AngularEditorModule
   ],
   providers: [
     NotifierService

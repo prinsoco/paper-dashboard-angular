@@ -28,8 +28,11 @@ import { FormNotificacionComponent } from '../../pages/notificaciones/form-notif
 import { CalendarioComponent } from '../../pages/citas/citas-medicos.component';
 import { FullCalendarModule } from "@fullcalendar/angular";
 import { NgSelectModule } from '@ng-select/ng-select';
+import { AngularEditorModule } from '@grantmk/angular-editor';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ModalCitasComponent } from '../../pages/citas/modal-citas-medico.component';
+import { CitasAsignadasComponent } from '../../pages/citas/consulta/citas-asignadas.component';
+import { AtencionCitaComponent } from '../../pages/citas/consulta/atencion/atencion-citas.component';
 
 @NgModule({
   imports: [
@@ -43,7 +46,8 @@ import { ModalCitasComponent } from '../../pages/citas/modal-citas-medico.compon
     NgSelectModule,
     NgMultiSelectDropDownModule,
     NotifierModule,
-    NgbModalModule
+    NgbModalModule,
+    AngularEditorModule
 ],
 providers: [
         NotifierService
@@ -69,7 +73,9 @@ providers: [
     NotificacionesComponent,
     FormNotificacionComponent,
     CalendarioComponent,
-    ModalCitasComponent
+    ModalCitasComponent,
+    CitasAsignadasComponent,
+    AtencionCitaComponent
   ]
 })
 

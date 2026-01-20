@@ -37,7 +37,7 @@ import { Paciente, IResponseDataPaciente, Filtro, FiltroPaciente } from "../inte
     public getById(id: number) {
 
         const headers = new HttpHeaders().set('Authorization', `Bearer ` + this.token); 
-        return this.http.get<IResponseDataPaciente<Paciente[]>>(`${this.prefix}getById/${id}`, {headers: headers});
+        return this.http.get<IResponseDataPaciente<Paciente>>(`${this.prefix}getById/${id}`, {headers: headers});
     } 
 
     public getByUser(user: string) {
