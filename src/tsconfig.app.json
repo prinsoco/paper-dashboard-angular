@@ -1,6 +1,16 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
     "outDir": "../out-tsc/app",
     "baseUrl": "",
     "types": []

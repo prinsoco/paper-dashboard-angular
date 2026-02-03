@@ -127,7 +127,6 @@
             right: 0;
             @include transform-translate-x(260px);
         }
-
         .sidebar{
             @include transform-translate-x(0px);
         }
@@ -301,7 +300,7 @@
 
 }
 @media (max-width: 991px) and (min-width: 768px){
-  .nav-tabs-navigation.verical-navs {
+  .nav-tabs-navigation.vertical-navs {
     padding: 0px 2px;
   }
 }
@@ -430,7 +429,7 @@
 }
 
 @media screen and (max-width: 767px){
-  .nav-tabs-navigation.verical-navs{
+  .nav-tabs-navigation.vertical-navs{
     padding: 0 28px;
   }
 

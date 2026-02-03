@@ -1,42 +1,64 @@
-## [2.4.0] 2022-12-08
+## [1.7.0] - 2022-07-14
+### Updates
+- update to Angular 15
+- update all dependencies to match Angular 15 version
+- build issue fixed
+- tsconfig updated
+
+## [1.6.0] - 2022-12-05
 ### Updates
 - update to Angular 14
 - update all dependencies to match Angular 14 version
 
-## [2.3.0] 2022-05-06
+## [1.5.0] - 2022-04-08
 ### Updates
 - update to Angular 13
 - update all dependencies to match Angular 13 version
-- fixed cosmetic issue
+- update naming convention for module
+- rewrite implementation for modules
+- build issue resolved
 
-## [2.2.0] 2020-10-08
+## [1.4.0] - 2020-12-14
 ### Updates
 - update to Angular 10
 - update all dependencies to match Angular 10 version
 
-## [2.1.0] 2020-03-16
+## [1.3.0] - 2020-03-04
 ### Updates
 - update to Angular 9
 - update all dependencies to match Angular 9 version
 
-## [2.0.0] 2019-17-07
+## [1.2.0] - 2019-06-19
 ### Updates
-- update from Bootstrap 3 to Bootstrap 4
 - update to Angular 8
 - update all dependencies to match Angular 8 version
-- change the product structure
-### Added
-- useHash
-- online doc
-- paper 2 styles
-- fixed plugin
-- copyright
-- issue_template
+- added useHash
 ### Bug Fixing
-- fix sidebar scroll
+- fixed errors occurred with the updates
+- fixed the function for removing the footer for fullscreen map
+- fixed the issue #19
+- fixed the issue #29
+- browser console error
+```
+href="#pablo" -> href="javascript:void(0)"
+href="#"      -> href="javascript:void(0)"
+```
+### Changes
+- changed the margin-top of datepicker
+- changed the imports for JwBootstrapSwitchNg2Module, Swal
 
-## [1.0.1] 2017-12-07
-- fixed errors for npm start
+## [1.1.0] 2018-12-05
+### Fixes
+- updated to Bootstrap 4
+- updated to Angular 6
+- added online documentation
+- changed the datepicker
+
+## [1.0.1] 2017-12-05
+### Fixes
+- update package.json
+- fixed checkboxes in regular forms
+- fixed wizard
 
 ## [1.0.0] 2017-06-27
 ### Initial Release

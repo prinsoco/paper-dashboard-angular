@@ -3,6 +3,7 @@
     padding-bottom: $navbar-padding-base;
     min-height: 53px;
     margin-bottom: 20px;
+    top : 0;
 
     a{
         vertical-align: middle;
@@ -17,7 +18,9 @@
     }
 
 
-
+    &.fixed-top{
+      position: fixed !important;
+    }
     &.bg-white{
       .input-group .form-control,
       .input-group.no-border .form-control{

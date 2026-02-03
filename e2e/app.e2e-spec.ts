@@ -1,14 +1,14 @@
-import { PdFreeAngularcliPage } from './app.po';
+import { PdPPage } from './app.po';
 
-describe('pd-free-angularcli App', () => {
-  let page: PdFreeAngularcliPage;
+describe('pd-p App', () => {
+  let page: PdPPage;
 
   beforeEach(() => {
-    page = new PdFreeAngularcliPage();
+    page = new PdPPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!!');
+    expect(page.getParagraphText()).toEqual('app works!');
   });
 });

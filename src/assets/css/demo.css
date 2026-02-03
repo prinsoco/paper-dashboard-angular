@@ -1,20 +1,17 @@
 /*!
 
-=========================================================
-* Paper Dashboard Angular - v2.1.0
-=========================================================
+ =========================================================
+ * Paper Dashboard Pro Angular - v1.7.0
+ =========================================================
 
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-angular
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-angular/blob/master/LICENSE.md)
+ * Product Page: https://www.creative-tim.com/product/paper-dashboard-pro-angular
+ * Copyright 2020 Creative Tim (http://www.creative-tim.com)
 
-* Coded by Creative Tim
+ =========================================================
 
-=========================================================
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
+ */
 .tim-row {
   margin-bottom: 20px;
 }
@@ -66,20 +63,11 @@
   z-index: 1;
 }
 
-@media all and (min-width: 992px) {
-  .sidebar .nav>li.active-pro {
-    position: absolute;
-    width: 100%;
-    bottom: 10px;
-  }
+#map {
+  position: relative;
+  width: 100%;
+  height: 100vh;
 }
-
-.card.card-upgrade .card-category {
-  max-width: 530px;
-  margin: 0 auto;
-}
-
-/* Nucleo Style */
 
 .demo-iconshtml {
   font-size: 62.5%;

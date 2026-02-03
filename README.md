@@ -1,61 +1,71 @@
-# [Paper Dashboard Angular](https://www.creative-tim.com/product/paper-dashboard-angular)
-![version](https://img.shields.io/badge/version-2.4.0-blue.svg) ![license](https://img.shields.io/badge/license-MIT-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/paper-dashboard-angular.svg?maxAge=2592000)]() [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/paper-dashboard-angular.svg?maxAge=2592000)]()  [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/E4aHAQy)
+# [Paper Dashboard Pro Angular](https://demos.creative-tim.com/paper-dashboard-pro-angular) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/home?status=Paper%20Dashboard%20PRO%20Angular%20by%20Creative%20Tim%20https%3A//demos.creative-tim.com/paper-dashboard-pro-angular%20via%20%40CreativeTim)
 
-![Product Gif](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/paper-dashboard-angular/paper-dashboard-angular.gif)
 
-Paper Dashboard Angular is a Bootstrap Admin Template which combines soft colors with beautiful typography and spacious cards and graphics. It was built on top of Google's [Angular Framework](https://angular.io/) and the HTML version of [Paper Dashboard](https://www.creative-tim.com/product/paper-dashboard). It is a powerful dashboard but it is light and easy to be used. It has enough features to allow you to get the job done, but it is not crowded to the point where you can't find the files for a specific component.
+![version](https://img.shields.io/badge/version-1.7.0-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/ct-paper-dashboard-pro-angular.svg?maxAge=2592000)](https://github.com/creativetimofficial/ct-paper-dashboard-pro-angular/issues?q=is%3Aopen+is%3Aissue) [![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/creativetimofficial/ct-paper-dashboard-pro-angular.svg?maxAge=259200)](https://github.com/creativetimofficial/ct-paper-dashboard-pro-angular/issues?q=is%3Aissue+is%3Aclosed)  [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/E4aHAQy)
 
- We like consistency and design that blends into its purpose. Paper Dashboard Angular is a perfect example of our most thoughtful work. It combines over a dozen components and plugins, while looking like everything fits together. For an easy start or inspiration for you project, we have also create a set of example pages, like the user settings or usage graphics.
+![Product Gif](https://media.giphy.com/media/5WJf1Jp5C0Ve1I2nne/giphy.gif)
 
- Paper Dashboard Angular is built using the same design language as [Paper Kit](http://www.creative-tim.com/product/paper-kit), which you can use for the presentation pages of your website. You can easily use them together, or pick between them depending on the project you have.
+**[Paper Dashboard PRO Angular](https://www.creative-tim.com/product/paper-dashboard-pro-angular/)** is the premium version for the [Paper Dashboard Angular](https://www.creative-tim.com/product/paper-dashboard-angular), which is available for free download.
 
- **Example Pages** We wanted to fully display the power of this dashboard, so the kit comes packed with examples showing you how to use the components.
 
- ## Table of Contents
+During the development of this dashboard, we have used many existing resources from awesome developers. We want to thank them for providing their tools open source:
 
- * [Versions](#versions)
- * [Demo](#demo)
- * [Quick Start](#quick-start)
- * [Deploy](#deploy)
- * [Documentation](#documentation)
- * [File Structure](#file-structure)
- * [Browser Support](#browser-support)
- * [Resources](#resources)
- * [Reporting Issues](#reporting-issues)
- * [Technical Support or Questions](#technical-support-or-questions)
- * [Licensing](#licensing)
- * [Useful Links](#useful-links)
+* [Robert McIntosh](https://github.com/mouse0270) for the notification system
+* [Chartist](https://gionkunz.github.io/chartist-js/) for the wonderful charts
+* [Tristan Edwards](https://twitter.com/t4t5) for the [Sweet Alert](http://limonte.github.io/sweetalert2/)
+* [Eonasdan](https://github.com/Eonasdan) for the [DateTimPicker](https://eonasdan.github.io/bootstrap-datetimepicker/)
+* Kirill Lebedev for [jVector Maps](http://jvectormap.com/)
+* [Vincent Gabriel](https://twitter.com/gabrielva) for the [Bootstrap Wizard](https://github.com/VinceG/twitter-bootstrap-wizard)
+* [FullCalendar.io](https://fullcalendar.io/) for the awesome Calendar
 
- ## Versions
+Let us know your thoughts below. And good luck with development!
 
- [<img src="https://s3.amazonaws.com/creativetim_bucket/github/html.png" width="60" height="60" />](https://www.creative-tim.com/product/paper-dashboard-2)
- [<img src="https://s3.amazonaws.com/creativetim_bucket/github/angular.png" width="60" height="60" />](https://www.creative-tim.com/product/paper-dashboard-angular)
- [<img src="https://s3.amazonaws.com/creativetim_bucket/github/react.svg" width="60" height="60" />](https://www.creative-tim.com/product/paper-dashboard-react)
+## Table of Contents
 
- | HTML | Angular | React |
- | --- | --- | --- |
- | [![Paper Dashboard 2 HTML](https://s3.amazonaws.com/creativetim_bucket/products/86/thumb/opt_pd2_thumbnail.jpg)](https://www.creative-tim.com/product/paper-dashboard-2) | [![Paper Dashboard Angular](https://s3.amazonaws.com/creativetim_bucket/products/58/thumb/opt_pd_angular_thumbnail.jpg)](https://www.creative-tim.com/product/paper-dashboard-angular) | [![Paper Dashboard React](https://s3.amazonaws.com/creativetim_bucket/products/98/thumb/opt_pd_react_thumbnail.jpg)](https://www.creative-tim.com/product/paper-dashboard-react) |
+* [Versions](#versions)
+* [Demo](#demo)
+* [Quick Start](#quick-start)
+* [Terminal Commands](#terminal-commands)
+* [Documentation](#documentation)
+* [File Structure](#file-structure)
+* [Browser Support](#browser-support)
+* [Resources](#resources)
+* [Reporting Issues](#reporting-issues)
+* [Technical Support or Questions](#technical-support-or-questions)
+* [Licensing](#licensing)
+* [Useful Links](#useful-links)
 
- ## Demo
 
- | Dashboard | User Profile | Tables | Icons | Notifications |
- | --- | --- | --- | --- | --- |
- | [![Start page](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/paper-dashboard-angular/dashboard.png?raw=true)](https://demos.creative-tim.com/paper-dashboard-angular/#/dashboard) | [![User profile page](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/paper-dashboard-angular/user-profile.png?raw=true)](https://demos.creative-tim.com/paper-dashboard-angular/#/user-profile) | [![Tables page ](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/paper-dashboard-angular/tables.png?raw=true)](https://demos.creative-tim.com/paper-dashboard-angular/#/table-list) | [![Icons Page](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/paper-dashboard-angular/icons.png?raw=true)](https://demos.creative-tim.com/paper-dashboard-angular/#/maps) | [![Notifications page](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/paper-dashboard-angular/notifications.png?raw=true)](https://demos.creative-tim.com/paper-dashboard-angular/#/notifications)
+## Versions
 
- [View More](https://demos.creative-tim.com/paper-dashboard-angular/#/dashboard).
+## Versions
+
+[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/html-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/paper-dashboard-2-pro)
+[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/angular-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/paper-dashboard-pro-angular)
+[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/vue-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/vue-paper-dashboard-pro)
+[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/react-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/paper-dashboard-pro-react)
+
+| Angular | HTML | React | Vue |
+| --- | --- | --- | --- |
+|[![Paper Dashboard Pro Angular](https://github.com/creativetimofficial/public-assets/blob/master/paper-dashboard-2-pro-angular/opt_pdp_angular_thumbnail.jpg?raw=true) | [![Paper Dashboard 2 Pro HTML](https://github.com/creativetimofficial/public-assets/blob/master/paper-dashboard-2-pro-html/opt_pd2p_thumbnail.jpg?raw=true)| [![Paper Dashboard Pro React](https://github.com/creativetimofficial/public-assets/blob/master/vue-paper-dashboard-2-pro/vue-paper-dashboard-2-pro.jpg?raw=true)| [![Vue Paper Dashboard Pro](https://github.com/creativetimofficial/public-assets/blob/master/paper-dashboard-2-pro-react/opt_pdp_react.jpg?raw=true)
+
+## Demo
+
+- [Start page](https://demos.creative-tim.com/paper-dashboard-pro-angular)
+- [Widgets page](https://demos.creative-tim.com/paper-dashboard-pro-angular/widgets)
+- [Tables page ](https://demos.creative-tim.com/paper-dashboard-pro-angular/tables/extended)
+- [Maps Page](https://demos.creative-tim.com/paper-dashboard-pro-angular/maps/google)
+- [Notifications page](https://demos.creative-tim.com/paper-dashboard-pro-angular/components/notifications)
+- [Charts page](https://demos.creative-tim.com/paper-dashboard-pro-angular/charts)
+
+[View More](https://demos.creative-tim.com/paper-dashboard-pro-angular).
 
 
 ## Quick start
 
 Quick start options:
 
-- [Download from Creative Tim](https://www.creative-tim.com/product/paper-dashboard-angular).
-
-## Deploy
-
-:rocket: You can deploy your own version of the template to Genezio with one click:
-
-[![Deploy to Genezio](https://raw.githubusercontent.com/Genez-io/graphics/main/svg/deploy-button.svg)](https://app.genez.io/start/deploy?repository=https://github.com/creativetimofficial/paper-dashboard-angular&utm_source=github&utm_medium=referral&utm_campaign=github-creativetim&utm_term=deploy-project&utm_content=button-head)
+- Buy from [Creative Tim](https://www.creative-tim.com/product/paper-dashboard-pro-angular)
 
 ## Terminal Commands
 
@@ -67,66 +77,121 @@ Quick start options:
 6. And: ```ng serve```
 7. Navigate to: [http://localhost:4200/](http://localhost:4200/)
 
-### What's included
+## Documentation
+The documentation for the Paper Dashboard Pro Angular is hosted at our [website](https://demos.creative-tim.com/paper-dashboard-pro-angular/documentation/tutorial).
+
+
+## File Structure
 
 Within the download you'll find the following directories and files:
 
 ```
-paper-dashboard-angular
+paper-dashboard-pro-angular/
 ├── CHANGELOG.md
-├── ISSUES_TEMPLATE.md
-├── LICENSE.md
 ├── README.md
 ├── angular.json
-├── browserslist
 ├── documentation
+│   ├── css
+│   ├── js
 │   └── tutorial-components.html
 ├── e2e
 ├── karma.conf.js
-├── package-lock.json
 ├── package.json
 ├── protractor.conf.js
 ├── src
 │   ├── app
-│   │   ├── app.component.css
 │   │   ├── app.component.html
 │   │   ├── app.component.spec.ts
 │   │   ├── app.component.ts
 │   │   ├── app.module.ts
 │   │   ├── app.routing.ts
-│   │   ├── layouts
-│   │   │   └── admin-layout
-│   │   │       ├── admin-layout.component.html
-│   │   │       ├── admin-layout.component.scss
-│   │   │       ├── admin-layout.component.spec.ts
-│   │   │       ├── admin-layout.component.ts
-│   │   │       ├── admin-layout.module.ts
-│   │   │       └── admin-layout.routing.ts
-│   │   ├── pages
-│   │   │   ├── dashboard
-│   │   │   │   ├── dashboard.component.html
-│   │   │   │   └── dashboard.component.ts
+│   │   ├── calendar
+│   │   │   ├── calendar.component.html
+│   │   │   ├── calendar.component.ts
+│   │   │   ├── calendar.module.ts
+│   │   │   └── calendar.routing.ts
+│   │   ├── charts
+│   │   │   ├── charts.component.html
+│   │   │   ├── charts.component.ts
+│   │   │   ├── charts.module.ts
+│   │   │   └── charts.routing.ts
+│   │   ├── components
+│   │   │   ├── buttons
+│   │   │   │   ├── buttons.component.html
+│   │   │   │   └── buttons.component.ts
+│   │   │   ├── components.module.ts
+│   │   │   ├── components.routing.ts
+│   │   │   ├── grid
+│   │   │   │   ├── grid.component.html
+│   │   │   │   └── grid.component.ts
 │   │   │   ├── icons
 │   │   │   │   ├── icons.component.html
 │   │   │   │   └── icons.component.ts
-│   │   │   ├── maps
-│   │   │   │   ├── maps.component.html
-│   │   │   │   └── maps.component.ts
 │   │   │   ├── notifications
 │   │   │   │   ├── notifications.component.html
 │   │   │   │   └── notifications.component.ts
-│   │   │   ├── table
-│   │   │   │   ├── table.component.html
-│   │   │   │   └── table.component.ts
-│   │   │   ├── typography
-│   │   │   │   ├── typography.component.html
-│   │   │   │   └── typography.component.ts
-│   │   │   ├── upgrade
-│   │   │   │   ├── upgrade.component.html
-│   │   │   │   └── upgrade.component.ts
-│   │   │   └── user
-│   │   │       ├── user.component.html
-│   │   │       └── user.component.ts
+│   │   │   ├── panels
+│   │   │   │   ├── panels.component.html
+│   │   │   │   └── panels.component.ts
+│   │   │   ├── sweetalert
+│   │   │   │   ├── sweetalert.component.html
+│   │   │   │   └── sweetalert.component.ts
+│   │   │   └── typography
+│   │   │       ├── typography.component.html
+│   │   │       └── typography.component.ts
+│   │   ├── dashboard
+│   │   │   ├── dashboard.component.html
+│   │   │   ├── dashboard.component.ts
+│   │   │   ├── dashboard.module.ts
+│   │   │   └── dashboard.routing.ts
+│   │   ├── forms
+│   │   │   ├── equal-validator.directive.ts
+│   │   │   ├── extendedforms
+│   │   │   │   ├── extendedforms.component.html
+│   │   │   │   └── extendedforms.component.ts
+│   │   │   ├── forms.module.ts
+│   │   │   ├── forms.routing.ts
+│   │   │   ├── regularforms
+│   │   │   │   ├── regularforms.component.html
+│   │   │   │   └── regularforms.component.ts
+│   │   │   ├── validationforms
+│   │   │   │   ├── password-validator.component.ts
+│   │   │   │   ├── validationforms.component.html
+│   │   │   │   └── validationforms.component.ts
+│   │   │   └── wizard
+│   │   │       ├── wizard.component.html
+│   │   │       └── wizard.component.ts
+│   │   ├── layouts
+│   │   │   ├── admin
+│   │   │   │   ├── admin-layout.component.html
+│   │   │   │   └── admin-layout.component.ts
+│   │   │   └── auth
+│   │   │       ├── auth-layout.component.html
+│   │   │       └── auth-layout.component.ts
+│   │   ├── maps
+│   │   │   ├── fullscreenmap
+│   │   │   │   ├── fullscreenmap.component.html
+│   │   │   │   └── fullscreenmap.component.ts
+│   │   │   ├── googlemaps
+│   │   │   │   ├── googlemaps.component.html
+│   │   │   │   └── googlemaps.component.ts
+│   │   │   ├── maps.module.ts
+│   │   │   ├── maps.routing.ts
+│   │   │   └── vectormaps
+│   │   │       ├── vectormaps.component.html
+│   │   │       └── vectormaps.component.ts
+│   │   ├── pages
+│   │   │   ├── lock
+│   │   │   │   ├── lock.component.html
+│   │   │   │   └── lock.component.ts
+│   │   │   ├── login
+│   │   │   │   ├── login.component.html
+│   │   │   │   └── login.component.ts
+│   │   │   ├── pages.module.ts
+│   │   │   ├── pages.routing.ts
+│   │   │   └── register
+│   │   │       ├── register.component.html
+│   │   │       └── register.component.ts
 │   │   ├── shared
 │   │   │   ├── fixedplugin
 │   │   │   │   ├── fixedplugin.component.html
@@ -140,14 +205,43 @@ paper-dashboard-angular
 │   │   │       ├── navbar.component.html
 │   │   │       ├── navbar.component.ts
 │   │   │       └── navbar.module.ts
-│   │   └── sidebar
-│   │       ├── sidebar.component.html
-│   │       ├── sidebar.component.ts
-│   │       └── sidebar.module.ts
+│   │   ├── sidebar
+│   │   │   ├── sidebar.component.html
+│   │   │   ├── sidebar.component.ts
+│   │   │   └── sidebar.module.ts
+│   │   ├── tables
+│   │   │   ├── datatable.net
+│   │   │   │   ├── datatable.component.html
+│   │   │   │   └── datatable.component.ts
+│   │   │   ├── extendedtable
+│   │   │   │   ├── extendedtable.component.html
+│   │   │   │   └── extendedtable.component.ts
+│   │   │   ├── regulartable
+│   │   │   │   ├── regulartable.component.html
+│   │   │   │   └── regulartable.component.ts
+│   │   │   ├── tables.module.ts
+│   │   │   └── tables.routing.ts
+│   │   ├── timeline
+│   │   │   ├── timeline.component.html
+│   │   │   ├── timeline.component.ts
+│   │   │   ├── timeline.module.ts
+│   │   │   └── timeline.routing.ts
+│   │   ├── userpage
+│   │   │   ├── user.component.html
+│   │   │   ├── user.component.ts
+│   │   │   ├── user.module.ts
+│   │   │   └── user.routing.ts
+│   │   └── widgets
+│   │       ├── widgets.component.html
+│   │       ├── widgets.component.spec.ts
+│   │       ├── widgets.component.ts
+│   │       ├── widgets.module.ts
+│   │       └── widgets.routing.ts
 │   ├── assets
 │   │   ├── css
 │   │   ├── fonts
 │   │   ├── img
+│   │   ├── js
 │   │   └── scss
 │   │       ├── paper-dashboard
 │   │       └── paper-dashboard.scss
@@ -156,14 +250,17 @@ paper-dashboard-angular
 │   ├── index.html
 │   ├── main.ts
 │   ├── polyfills.ts
-│   ├── styles.css
 │   ├── test.ts
 │   ├── tsconfig.app.json
 │   ├── tsconfig.spec.json
 │   └── typings.d.ts
 ├── tsconfig.json
-└── tslint.json
+├── tslint.json
+├── typings
+└── typings.json
+
 ```
+
 ## Browser Support
 
 At present, we officially aim to support the last two versions of the following browsers:
@@ -172,17 +269,19 @@ At present, we officially aim to support the last two versions of the following 
 
 
 ## Resources
-- Demo: https://demos.creative-tim.com/paper-dashboard-angular/#/dashboard
-- Download Page: https://www.creative-tim.com/product/paper-dashboard-angular
-- Documentation: https://demos.creative-tim.com/paper-dashboard-angular/#/documentation/tutorial
+- [Live Preview](https://demos.creative-tim.com/paper-dashboard-pro-angular)
+- Buy Page: https://www.creative-tim.com/product/paper-dashboard-pro-angular
+- Documentation is [here](https://demos.creative-tim.com/paper-dashboard-pro-angular/documentation/tutorial)
 - License Agreement: https://www.creative-tim.com/license
 - Support: https://www.creative-tim.com/contact-us
-- Issues: [Github Issues Page](https://github.com/creativetimofficial/paper-dashboard-angular/issues)
+- Issues: [Github Issues Page](https://github.com/creativetimofficial/ct-paper-dashboard-pro-angular/issues)
+- Paper Dashboard Angular- [demo](https://www.creative-tim.com/product/paper-dashboard-angular?ref=github-pd-pro-angular)
+- For Front End Development - [Paper Kit Pro ](https://www.creative-tim.com/product/paper-kit-2-pro-angular?ref=github-pd-pro)
 
 ## Reporting Issues
-We use GitHub Issues as the official bug tracker for the Paper Dashboard Angular. Here are some advices for our users that want to report an issue:
+We use GitHub Issues as the official bug tracker for the Paper Dashboard Pro Angular. Here are some advices for our users that want to report an issue:
 
-1. Make sure that you are using the latest version of the Paper Dashboard Angular. Check the CHANGELOG from your dashboard on our [website](https://www.creative-tim.com/).
+1. Make sure that you are using the latest version of the Paper Dashboard Pro Angular. Check the CHANGELOG from your dashboard on our [website](https://www.creative-tim.com/).
 2. Providing us reproducible steps for the issue will shorten the time it takes for it to be fixed.
 3. Some issues may be browser specific, so specifying in what browser you encountered the issue might help.
 
@@ -192,20 +291,22 @@ If you have questions or need help integrating the product please [contact us](h
 
 ## Licensing
 
-- Copyright 2019 Creative Tim (https://www.creative-tim.com)
-- Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-angular/blob/master/LICENSE.md)
+- Copyright 2018 Creative Tim (https://www.creative-tim.com)
+- Creative Tim [license](https://www.creative-tim.com/license)
 
 ## Useful Links
 
-More products from Creative Tim: <https://www.creative-tim.com/products>
+- [More products](https://www.creative-tim.com/bootstrap-themes) from Creative Tim
 
-Tutorials: <https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w>
+- [Angular products](https://www.creative-tim.com/bootstrap-themes/angular-themes) from Creative Tim
 
-Freebies: <https://www.creative-tim.com/products>
+- [Tutorials](https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w)
 
-Affiliate Program (earn money): <https://www.creative-tim.com/affiliates/new>
+- [Freebies](https://www.creative-tim.com/bootstrap-themes/free) from Creative Tim
 
-Social Media:
+- [Affiliate Program](https://www.creative-tim.com/affiliates/new) (earn money)
+
+##### Social Media
 
 Twitter: <https://twitter.com/CreativeTim>
 
