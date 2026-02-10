@@ -1,10 +1,5 @@
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
-
 export const environment = {
-  production: true,
+  production: false,
   services:{
     apiService: 'api',
     catalogoService: 'http://localhost:5005/api/Catalogo/',
@@ -20,6 +15,29 @@ export const environment = {
     horarioServices: 'http://localhost:5005/api/Horarios/',
     citasServices: 'http://localhost:5005/api/Cita/',
     historialServices: 'http://localhost:5005/api/HistorialClinico/',
-    authServices: 'http://localhost:5005/api'
+    authServices: 'http://localhost:5005/api',
+    menuServices: 'http://localhost:5005/api/Menu/',
+    asignacion: 'http://localhost:5005/api/Asignacion/',
   }
+  /*
+  services:{
+    apiService: 'api',
+    catalogoService: 'https://api.medicare-soft.com/api/Catalogo/',
+    especialidadService: 'https://api.medicare-soft.com/api/Especialidad/',
+    medicoService: 'https://api.medicare-soft.com/api/Medico/',
+    pacienteService: 'https://api.medicare-soft.com/api/Paciente/',
+    perfilService: 'https://api.medicare-soft.com/api/Perfil/',
+    rolService: 'https://api.medicare-soft.com/api/Rol/',
+    usuarioService: 'https://api.medicare-soft.com/api/Usuario/',
+    dashboardService: 'https://api.medicare-soft.com/api/DashBoard/',
+    parametroService: 'https://api.medicare-soft.com/api/Parametros/',
+    notificacionService: 'https://api.medicare-soft.com/api/Notificacion/',
+    horarioServices: 'https://api.medicare-soft.com/api/Horarios/',
+    citasServices: 'https://api.medicare-soft.com/api/Cita/',
+    historialServices: 'https://api.medicare-soft.com/api/HistorialClinico/',
+    authServices: 'https://api.medicare-soft.com/api',
+    menuServices: 'https://api.medicare-soft.com/api/Menu/',
+    asignacion: 'http://localhost:5005/api/Asignacion/',
+  }
+  */
 };

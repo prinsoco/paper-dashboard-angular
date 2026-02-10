@@ -1,10 +1,12 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable,Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LoginAut } from "../../pages/interfaces/login.interface";
+import { LoginAut } from "../../interfaces/login.interface";
 import { ToastrService } from "ngx-toastr";
 import { Router } from '@angular/router';
+
+declare var $:any;
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +14,8 @@ import { Router } from '@angular/router';
 
   export class UtilsGeneral {
     datoLogin: LoginAut;
+    tColor?: string;
+
     constructor(private route: ActivatedRoute,
       private toastr: ToastrService,
       private router: Router
@@ -158,6 +162,43 @@ import { Router } from '@angular/router';
         break;
     }
 }
+
+public showNotificationNotify(color: number, from, align, mensaje: string){
+        var type = ['','info','success','warning','danger'];
+        
+        switch (color) {
+          case 1:
+            this.tColor = type[color];
+            break;
+          case 2:
+            this.tColor = type[color];
+            break;
+          case 3:
+            this.tColor = type[color];
+            break;
+          case 4:
+            this.tColor = type[color];
+            break;
+          case 5:
+            this.tColor = '';
+            break;
+          default:
+            break;
+        }
+
+    	$.notify({
+        	icon: "ti-gift",
+        	message: mensaje
+        },{
+            type: this.tColor,
+            timer: 4000,
+            placement: {
+                from: from,
+                align: align
+            },
+            template: '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>'
+        });
+	}
 
 public colorCalender(): string{
       return "#FFFFFF"

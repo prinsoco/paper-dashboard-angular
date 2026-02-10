@@ -279,6 +279,7 @@
              border-top: 16px solid rgba(0,0,0,0);
              right: -27px;
              bottom: 425px;
+             top: 56px;
           }
 
           &:after{
@@ -287,6 +288,7 @@
              border-top: 16px solid rgba(0,0,0,0);
              right: -26px;
              bottom: 425px;
+             top: 56px;
           }
 
           &:before,
@@ -305,7 +307,6 @@
         .dropdown-menu .show{
           transform: translate3d(0, -60px, 0)!important;
           bottom: auto!important;
-          top: 0!important;
         }
       }
     }

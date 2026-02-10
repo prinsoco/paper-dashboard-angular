@@ -1,20 +1,17 @@
 /*!
 
-=========================================================
-* Paper Dashboard Angular - v2.1.0
-=========================================================
+ =========================================================
+ * Paper Dashboard Pro Angular - v1.7.0
+ =========================================================
 
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-angular
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-angular/blob/master/LICENSE.md)
+ * Product Page: https://www.creative-tim.com/product/paper-dashboard-pro-angular
+ * Copyright 2020 Creative Tim (http://www.creative-tim.com)
 
-* Coded by Creative Tim
+ =========================================================
 
-=========================================================
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
+ */
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 

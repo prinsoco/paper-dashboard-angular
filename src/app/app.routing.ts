@@ -1,46 +1,55 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
+import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
-export const AppRoutes: Routes = [
-  {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
-  }, {
-    path: '',
-    component: AdminLayoutComponent,
-    children: [
+export const AppRoutes: Routes = [{
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },{
+        path: '',
+        component: AdminLayoutComponent,
+        children: [
+        { 
+            path: '',
+            loadChildren: () => import('./modules/modules.module').then(x => x.ModulesModule)
+         },
+        { 
+            path: '',
+            loadChildren: () => import('./dashboard/dashboard.module').then(x => x.DashboardModule)
+         },
         {
-      path: '',
-      loadChildren: () => import('./layouts/admin-layout/admin-layout.module').then(x => x.AdminLayoutModule)
-  }]},
-  {
-    path: '**',
-    redirectTo: 'dashboard'
-  },
-  {
-    path: '',
-    children: [
-        {
-      loadChildren: () => import('./pages/login/login.module').then(x => x.LoginModule)
+            path: 'components',
+            loadChildren: () => import('./components/components.module').then(x=>x.ComponentsModule)
+        },{
+            path: 'forms',
+            loadChildren: () => import('./form/form.module').then(x=>x.FormModule)
+        },{
+            path: 'tables',
+            loadChildren:() => import( './tables/tables.module').then(x=>x.TablesModule)
+        },{
+            path: 'charts',
+            loadChildren:() => import( './charts/charts.module').then(x=>x.ChartsModule)
+        },{
+            path: 'calendar',
+            loadChildren:() => import( './calendar/calendar.module').then(x=>x.CalendarModule)
+        },{
+            path: '',
+            loadChildren:() => import( './userpage/user.module').then(x=>x.UserModule)
+        },{
+            path: '',
+            loadChildren:() => import( './timeline/timeline.module').then(x=>x.TimelineModule)
+        },{
+            path: '',
+            loadChildren:() => import( './widgets/widgets.module').then(x=>x.WidgetsModule)
         }]
-  }
-]
-
-
-@NgModule({
-  imports: [
-    // IMPORTANTE: sin { useHash: true }
-    RouterModule.forRoot(AppRoutes, {
-      // Opcional: comportamiento de scroll amigable
-      scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'enabled',
-      useHash: true  
-    })
-  ],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {}
-
+        },{
+            path: '',
+            component: AuthLayoutComponent,
+            children: [{
+                path: 'pages',
+                loadChildren:() => import( './pages/pages.module').then(x=>x.PagesModule)
+            }]
+        }
+];

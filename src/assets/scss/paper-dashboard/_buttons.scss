@@ -88,64 +88,6 @@
         }
     }
 
-    &.btn-icon-add {
-        // see above for color variations
-        height: $btn-icon-size-regular-add;
-        min-width: $btn-icon-size-regular;
-        width: $btn-icon-size-regular-add;
-        padding: 0;
-        font-size: $btn-icon-font-size-regular;
-        overflow: hidden;
-        position: relative;
-        line-height: normal;
-
-        &.btn-simple{
-            padding: 0;
-        }
-
-        &.btn-sm{
-            height: $btn-icon-size-small;
-            min-width: $btn-icon-size-small;
-            width: $btn-icon-size-small;
-
-            .fa,
-            .far,
-            .fas,
-            .nc-icon{
-                font-size: $btn-icon-font-size-small;
-            }
-        }
-
-        &.btn-lg{
-            height: $btn-icon-size-lg;
-            min-width: $btn-icon-size-lg;
-            width: $btn-icon-size-lg;
-
-            .fa,
-            .far,
-            .fas,
-            .nc-icon{
-                font-size: $btn-icon-font-size-lg;
-            }
-        }
-
-        &:not(.btn-footer) .nc-icon,
-        &:not(.btn-footer) .fa,
-        &:not(.btn-footer) .far,
-        &:not(.btn-footer) .fas{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-12px, -12px);
-            line-height: 1.5626rem;
-            width: 24px;
-        }
-
-        &.btn-neutral {
-          font-size: 20px;
-        }
-    }
-
     &:not(.btn-icon) .nc-icon{
         position: relative;
         top: 1px;

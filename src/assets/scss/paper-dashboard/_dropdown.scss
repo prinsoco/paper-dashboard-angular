@@ -1,6 +1,5 @@
 .dropdown,
-.dropup,
-.bootstrap-select{
+.dropup{
     .dropdown-menu{
         display: block;
         @include opacity(0);
@@ -31,7 +30,7 @@
         &[x-placement="bottom-start"]{
             @include transform-translate-y-dropdown(50px);
             bottom: auto !important;
-            top: 0 !important;
+            // top: 0 !important;
         }
     }
 
@@ -53,6 +52,48 @@
     .dropdown-menu.inner{
       @include transform-translate-y(0px);
     }
+}
+
+.bootstrap-select{
+
+  .dropdown-toggle:focus{
+    outline: none !important;
+  }
+
+  .dropdown-menu .dropdown-item:last-child,
+  .dropdown-menu .dropdown-item:first-child{
+    border-radius: 0;
+  }
+
+  &.show-tick .dropdown-menu .selected span.check-mark{
+    top: 13px;
+  }
+
+  .filter-option-inner-inner{
+    color: $white;
+  }
+}
+
+.bootstrap-select.show:before {
+    border-bottom: 11px solid #f1eae0;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right: 35px;
+    top: 50px;
+}
+
+.bootstrap-select.show:after {
+    border-bottom: 11px solid #fffcf5;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right: 35px;
+    top: 51px;
 }
 
 .bootstrap-select.show{
